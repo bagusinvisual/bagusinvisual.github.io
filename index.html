@@ -44,11 +44,11 @@
         }
 
         @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
+            from { opacity: 0; transform: scale(0.92); }
             to { opacity: 1; transform: scale(1); }
         }
         .animate-modal {
-            animation: modalFadeIn 0.25s ease-out forwards;
+            animation: modalFadeIn var(--gallery-anim-dur, 350ms) cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes blink {
@@ -172,30 +172,23 @@
         </div>
     </section>
 
-    <!-- GALERI PORTOFOLIO WITH SIDEBAR FILTER (ACUAN GAMBAR) -->
+    <!-- GALERI PORTOFOLIO WITH SIDEBAR FILTER -->
     <section id="portofolio" class="py-28 px-6 max-w-7xl mx-auto border-t border-brand-border/60 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center mb-16">
             <h2 id="txt_porto_title" class="text-3xl sm:text-4xl font-bold mb-4">Galeri Portofolio</h2>
             <p id="txt_porto_subtitle" class="text-slate-400">Pilih kategori proyek di sebelah kiri untuk menyaring karya.</p>
         </div>
 
-        <!-- LAYOUT GRID SIDEBAR + PORTO GRID -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- SIDEBAR FILTER (KIRI) -->
             <div class="lg:col-span-3 bg-brand-card border border-brand-border p-4 rounded-3xl space-y-2 sticky top-28">
                 <div id="filterCategoryContainer" class="flex flex-col gap-1">
-                    <!-- Dynamic Filter Buttons akan dirender di sini -->
                 </div>
             </div>
 
-            <!-- GRID PORTOFOLIO (KANAN) -->
             <div class="lg:col-span-9">
                 <div id="portoContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Data Galeri Porto akan di-load di sini -->
                 </div>
             </div>
-
         </div>
 
         <div class="mt-16 text-center">
@@ -257,6 +250,8 @@
         let textToType = "";
         let typingSpeedMs = 90;
         let customScrollDuration = 1000;
+        let skillAnimDuration = 1000;
+        let galleryAnimDuration = 350;
         let allPortoItems = [];
         let activeCategory = 'All Projects';
         
@@ -287,6 +282,11 @@
                         typingSpeedMs = parseInt(val) || 90;
                     } else if (key === 'scroll_duration') {
                         customScrollDuration = parseInt(val) || 1000;
+                    } else if (key === 'skill_anim_duration') {
+                        skillAnimDuration = parseInt(val) || 1000;
+                    } else if (key === 'gallery_anim_duration') {
+                        galleryAnimDuration = parseInt(val) || 350;
+                        document.documentElement.style.setProperty('--gallery-anim-dur', `${galleryAnimDuration}ms`);
                     } else {
                         const el = document.getElementById(`txt_${key}`);
                         if (el) el.innerHTML = val;
@@ -338,7 +338,6 @@
             }
         }
 
-        // --- LOAD PORTO & RENDER FILTER SIDEBAR ---
         async function loadPorto() {
             try {
                 const response = await fetch('porto.txt');
@@ -373,10 +372,13 @@
                     });
 
                     if (itemData.url) {
+                        itemData.categoriesArray = itemData.category
+                            .split(',')
+                            .map(c => c.trim())
+                            .filter(c => c.length > 0);
+
                         allPortoItems.push(itemData);
-                        if (itemData.category) {
-                            categoriesSet.add(itemData.category);
-                        }
+                        itemData.categoriesArray.forEach(cat => categoriesSet.add(cat));
                     }
                 });
 
@@ -416,14 +418,16 @@
 
             const filteredItems = activeCategory === 'All Projects' 
                 ? allPortoItems 
-                : allPortoItems.filter(item => item.category.toLowerCase() === activeCategory.toLowerCase());
+                : allPortoItems.filter(item => 
+                    item.categoriesArray.some(c => c.toLowerCase() === activeCategory.toLowerCase())
+                  );
 
             if (filteredItems.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500">Tidak ada karya untuk kategori ini.</div>`;
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Tidak ada karya untuk kategori ini.</div>`;
                 return;
             }
 
-            filteredItems.forEach(itemData => {
+            filteredItems.forEach((itemData, index) => {
                 const videoId = getYoutubeId(itemData.url);
                 if (!videoId) return;
 
@@ -438,9 +442,16 @@
                     heightClass = 'h-72';
                 }
 
+                const categoryBadgesHtml = itemData.categoriesArray.map(cat => 
+                    `<span class="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase tracking-wider border border-white/10">${cat}</span>`
+                ).join(' ');
+
+                const staggerDelay = index * 50;
+
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
-                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300">
+                         style="animation-delay: ${staggerDelay}ms"
+                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal">
                         <div class="relative w-full overflow-hidden">
                             <img src="${imgUrl}" 
                                  onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
@@ -448,9 +459,9 @@
                                  class="w-full object-cover group-hover:scale-105 transition duration-500 ${heightClass}">
                             <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
                             
-                            <span class="absolute top-4 right-4 text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-3 py-1 rounded-full uppercase tracking-wider border border-white/10">
-                                ${itemData.category}
-                            </span>
+                            <div class="absolute top-4 right-4 flex flex-wrap gap-1 justify-end max-w-[80%]">
+                                ${categoryBadgesHtml}
+                            </div>
                         </div>
 
                         <div class="p-6 space-y-2 relative z-10 bg-brand-card">
@@ -515,14 +526,18 @@
                     
                     if (parts[0] === 'software') {
                         const [_, name, percent] = parts;
+                        const numericPercent = parseInt(percent) || 0;
+
                         const item = `
-                            <div class="space-y-2">
+                            <div class="space-y-2 skill-bar-item">
                                 <div class="flex justify-between text-sm font-semibold">
                                     <span>${name}</span>
-                                    <span class="text-brand-red">${percent}</span>
+                                    <span class="text-brand-red skill-percent-text" data-target="${numericPercent}">0%</span>
                                 </div>
                                 <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                                    <div class="bg-gradient-to-r from-brand-red to-rose-500 h-full" style="width: ${percent}"></div>
+                                    <div class="bg-gradient-to-r from-brand-red to-rose-500 h-full skill-progress-fill transition-all ease-out" 
+                                         style="width: 0%; transition-duration: ${skillAnimDuration}ms;" 
+                                         data-target="${numericPercent}%"></div>
                                 </div>
                             </div>
                         `;
@@ -533,9 +548,55 @@
                         coreContainer.innerHTML += item;
                     }
                 });
+
+                initSkillAnimationObserver();
+
             } catch (error) {
                 console.error("Gagal memuat skill.txt", error);
             }
+        }
+
+        function initSkillAnimationObserver() {
+            const section = document.getElementById('keahlian');
+            if (!section) return;
+
+            let animated = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animated) {
+                        animated = true;
+                        
+                        const fills = section.querySelectorAll('.skill-progress-fill');
+                        fills.forEach(fill => {
+                            const targetWidth = fill.getAttribute('data-target');
+                            setTimeout(() => {
+                                fill.style.width = targetWidth;
+                            }, 50);
+                        });
+
+                        const percentTexts = section.querySelectorAll('.skill-percent-text');
+                        percentTexts.forEach(textEl => {
+                            const target = parseInt(textEl.getAttribute('data-target')) || 0;
+                            let current = 0;
+                            const stepTime = Math.max(Math.floor(skillAnimDuration / target), 12);
+
+                            const timer = setInterval(() => {
+                                current += 1;
+                                textEl.innerText = `${current}%`;
+                                if (current >= target) {
+                                    textEl.innerText = `${target}%`;
+                                    clearInterval(timer);
+                                }
+                            }, stepTime);
+                        });
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            observer.observe(section);
         }
 
         const typedTextElement = document.getElementById("typedText");
