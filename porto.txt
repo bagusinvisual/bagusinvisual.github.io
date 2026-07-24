@@ -6,7 +6,7 @@ url: https://www.youtube.com/watch?v=1eEu3V7PWW8
 title: Wedding Teaser
 description:
 type: landscape
-url: https://drive.google.com/file/d/1NQMIHwCLRFiNPbXEHacYfAI6gZup-lPo/view
+url: https://drive.google.com/file/d/1NQMIHwCLRFiNPbXEHacYfAI6gZup-lPo/preview
 ---
 title: Behind The Scene Short
 description: Dokumentasi singkat proses pembuatan video musik di lokasi outdoor.
