@@ -29,6 +29,27 @@
             }
         }
     </script>
+    <script>
+  document.addEventListener('keydown', function(e) {
+    // Matikan F12
+    if (e.key === 'F12') {
+      e.preventDefault();
+    }
+    // Matikan Ctrl+U (View Source)
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+      e.preventDefault();
+    }
+    // Matikan Ctrl+Shift+I / J / C (Inspect Element)
+    if (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) {
+      e.preventDefault();
+    }
+  });
+
+  // Matikan Klik Kanan
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+</script>
     <style>
         .bg-grid-pattern {
             background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
@@ -253,7 +274,7 @@
     <script>
         let textToType = "";
         let typingSpeedMs = 90;
-        let customScrollDuration = 1000; // default 1 detik
+        let customScrollDuration = 1000;
         
         // --- HELPER FUNCTION: EXTRACT YOUTUBE ID ---
         function getYoutubeId(url) {
@@ -336,42 +357,81 @@
             }
         }
 
-        // --- 2. LOAD PORTOFOLIO DARI porto.txt ---
+        // --- 2. LOAD PORTOFOLIO DARI porto.txt (DENGAN PEMBATAS ---) ---
         async function loadPorto() {
             try {
                 const response = await fetch('porto.txt');
                 const text = await response.text();
-                const lines = text.trim().split('\n');
                 const container = document.getElementById('portoContainer');
                 container.innerHTML = '';
 
-                lines.forEach(line => {
-                    if(!line.trim() || line.trim().startsWith('#')) return;
-                    const [title, rawUrl, orientation, category] = line.split('|').map(s => s.trim());
-                    
-                    const videoId = getYoutubeId(rawUrl);
+                // Memisah item berdasarkan pembatas '---'
+                const rawItems = text.split(/^---$/m);
+
+                rawItems.forEach(block => {
+                    const lines = block.trim().split('\n');
+                    let itemData = {
+                        title: '',
+                        description: '',
+                        type: 'landscape',
+                        url: ''
+                    };
+
+                    lines.forEach(line => {
+                        const trimmed = line.trim();
+                        if (!trimmed || trimmed.startsWith('#')) return;
+
+                        const colonIndex = trimmed.indexOf(':');
+                        if (colonIndex !== -1) {
+                            const key = trimmed.slice(0, colonIndex).trim().toLowerCase();
+                            const val = trimmed.slice(colonIndex + 1).trim();
+                            if (key in itemData) {
+                                itemData[key] = val;
+                            }
+                        }
+                    });
+
+                    if (!itemData.url) return;
+
+                    const videoId = getYoutubeId(itemData.url);
                     if (!videoId) return;
 
                     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+                    let heightClass = 'h-64';
+                    let badgeType = 'Landscape';
                     
-                    let heightClass = 'h-72';
-                    if (orientation === 'portrait') heightClass = 'h-[28rem]';
-                    else if (orientation === 'landscape') heightClass = 'h-64';
-                    else if (orientation === 'square') heightClass = 'h-80';
+                    const typeLower = itemData.type.toLowerCase();
+                    if (typeLower === 'portrait') {
+                        heightClass = 'h-[28rem]';
+                        badgeType = 'Portrait';
+                    } else if (typeLower === 'square') {
+                        heightClass = 'h-80';
+                        badgeType = 'Square';
+                    }
 
                     const item = `
                         <div class="masonry-item reveal-on-scroll">
-                            <div onclick="openVideoModal('${title}', '${embedUrl}')" class="group relative rounded-2xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card">
-                                <img src="${imgUrl}" 
-                                     onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
-                                     alt="${title}" 
-                                     class="w-full object-cover group-hover:scale-105 transition duration-500 ${heightClass}">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-5">
-                                    <span class="text-xs font-bold text-brand-red uppercase tracking-wider">${category}</span>
-                                    <h4 class="text-lg font-bold text-white">${title}</h4>
-                                    <div class="mt-2 inline-flex items-center gap-2 text-xs text-white bg-brand-red/80 px-3 py-1 rounded-full w-fit">
-                                        <i class="fa-solid fa-play"></i> Putar Video
+                            <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" class="group relative rounded-2xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition">
+                                <div class="relative w-full overflow-hidden">
+                                    <img src="${imgUrl}" 
+                                         onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
+                                         alt="${itemData.title}" 
+                                         class="w-full object-cover group-hover:scale-105 transition duration-500 ${heightClass}">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/30 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
+                                    
+                                    <span class="absolute top-3 right-3 text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase tracking-wider border border-white/10">
+                                        ${badgeType}
+                                    </span>
+                                </div>
+
+                                <div class="p-5 space-y-2 relative z-10 bg-brand-card">
+                                    <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
+                                    ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${itemData.description}</p>` : ''}
+                                    
+                                    <div class="pt-2 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                                        <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
                                     </div>
                                 </div>
                             </div>
@@ -379,6 +439,7 @@
                     `;
                     container.innerHTML += item;
                 });
+
             } catch (error) {
                 console.error("Gagal memuat porto.txt", error);
             }
@@ -537,13 +598,12 @@
                     
                     if (!targetElement) return;
 
-                    const navbarHeight = 80; // offset agar judul section tidak tertutup navbar fixed
+                    const navbarHeight = 80;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
                     const startPosition = window.pageYOffset;
                     const distance = targetPosition - startPosition;
                     let startTime = null;
 
-                    // Easing Cubic-Bezier (smooth acceleration/deceleration)
                     function easeInOutCubic(t, b, c, d) {
                         t /= d / 2;
                         if (t < 1) return c / 2 * t * t * t + b;
