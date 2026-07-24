@@ -3,8 +3,8 @@ description: Highlight momen pernikahan romantis dengan tone warna hangat dan si
 type: portrait
 url: https://www.youtube.com/watch?v=1eEu3V7PWW8
 ---
-title: Commercial Music Video
-description: Visualisasi lagu pop-punk energik dengan transisi cepat dan lighting studio.
+title: Wedding Teaser
+description:
 type: landscape
 url: https://drive.google.com/file/d/1NQMIHwCLRFiNPbXEHacYfAI6gZup-lPo/view
 ---
