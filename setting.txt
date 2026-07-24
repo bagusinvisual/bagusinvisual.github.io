@@ -11,6 +11,10 @@ typing_speed | 100
 # Durasi animasi gulir/scroll antar-tab saat menu diklik (dalam milidetik, misal: 1000 = 1 detik)
 scroll_duration | 1000
 
+# Duration Settings (dalam milidetik / ms)
+gallery_anim_duration | 3500
+skill_anim_duration | 6000
+
 # --- TEKS STATIS WEBSITE ---
 brand_logo | BAGUS<span class="text-brand-red">INVISUAL</span>
 nav_about | Tentang
