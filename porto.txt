@@ -1,5 +1,14 @@
-Cinematic Wedding Story | https://www.youtube.com/embed/SLUifZu4Ppc | landscape | Wedding Videography
-Fashion & Portrait Reel | https://www.youtube.com/watch?v=dQw4w9WgXcQ | portrait | Model Showcase
-Romantic Outdoor Story | https://youtu.be/dQw4w9WgXcQ | square | Prewedding
-Creative Commercial Edit | https://www.youtube.com/embed/dQw4w9WgXcQ | portrait | Social Media Video Editing
-Festival & Highlight Event | https://www.youtube.com/embed/dQw4w9WgXcQ | landscape | Event
+title: Cinematic Wedding Reels
+description: Highlight momen pernikahan romantis dengan tone warna hangat dan sinematik.
+type: portrait
+url: https://www.youtube.com/watch?v=1eEu3V7PWW8
+---
+title: Commercial Music Video
+description: Visualisasi lagu pop-punk energik dengan transisi cepat dan lighting studio.
+type: landscape
+url: https://www.youtube.com/watch?v=SLUifZu4Ppc
+---
+title: Behind The Scene Short
+description: Dokumentasi singkat proses pembuatan video musik di lokasi outdoor.
+type: square
+url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
