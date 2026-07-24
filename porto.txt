@@ -1,15 +1,12 @@
 title: Wedding Teaser
 description: 
+category: Wedding Teaser
 type: landscape
 url: https://www.youtube.com/watch?v=mGKvqxxaPuI
 ---
 title: Wedding Teaser
 description: 
+category: Wedding Teaser
 type: landscape
 url: https://www.youtube.com/watch?v=Yn9y-KvIEvY
----
-title: Behind The Scene Short
-description: Dokumentasi singkat proses pembuatan video musik di lokasi outdoor.
-type: square
-url: 
 ---
