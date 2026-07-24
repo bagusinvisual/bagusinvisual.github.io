@@ -10,3 +10,9 @@ category: Wedding Teaser
 type: landscape
 url: https://www.youtube.com/watch?v=Yn9y-KvIEvY
 ---
+title: Wedding Reels/Story
+description: 
+category: Reels/Story
+type: Portrait
+url: https://www.youtube.com/watch?v=AyTCtuDusSs
+---
