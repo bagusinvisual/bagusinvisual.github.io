@@ -1,7 +1,7 @@
-title: Cinematic Wedding Reels
-description: Highlight momen pernikahan romantis dengan tone warna hangat dan sinematik.
-type: portrait
-url: https://www.youtube.com/watch?v=1eEu3V7PWW8
+title: Wedding Teaser
+description: 
+type: landscape
+url: https://www.youtube.com/watch?v=mGKvqxxaPuI
 ---
 title: Wedding Teaser
 description: 
@@ -11,4 +11,5 @@ url: https://www.youtube.com/watch?v=Yn9y-KvIEvY
 title: Behind The Scene Short
 description: Dokumentasi singkat proses pembuatan video musik di lokasi outdoor.
 type: square
-url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+url: 
+---
