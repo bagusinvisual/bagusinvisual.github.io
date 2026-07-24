@@ -1,0 +1,36 @@
+# --- PENGATURAN ANIMASI ---
+# Durasi fade-in saat di-scroll (dalam detik, misal: 1.5s, 2s, 0.8s)
+animation_duration | 1.5s
+
+# Jarak pergeseran dari bawah ke atas saat fade-in (dalam pixel, misal: 40px, 80px)
+animation_distance | 50px
+
+# Kecepatan efek ketik teks tagline (dalam milidetik, semakin besar semakin lambat, misal: 120)
+typing_speed | 100
+
+# Durasi animasi gulir/scroll antar-tab saat menu diklik (dalam milidetik, misal: 1000 = 1 detik)
+scroll_duration | 1000
+
+# --- TEKS STATIS WEBSITE ---
+brand_logo | BAGUS<span class="text-brand-red">INVISUAL</span>
+nav_about | Tentang
+nav_exp | Pengalaman
+nav_skills | Keahlian
+nav_porto | Portofolio
+nav_contact_btn | Hubungi Saya
+
+exp_title | Riwayat Pekerjaan
+exp_subtitle | Pengalaman profesional dalam industri kreatif videografi dan editing.
+
+skills_title | Keahlian & Tools
+skills_subtitle | Software dan perangkat yang saya kuasai untuk menunjang hasil karya berstandar tinggi.
+skills_software_header | Software Mastery
+skills_core_header | Core Competencies
+
+porto_title | Galeri Portofolio
+porto_subtitle | Klik salah satu karya untuk memutar preview video.
+porto_extra_text | Ingin melihat koleksi portofolio lengkap berdasarkan kategori?
+
+cta_title | Mari Kolaborasi Proyek Anda!
+cta_subtitle | Terbuka untuk pekerjaan videografi, editing, maupun project jangka panjang.
+footer_copyright | &copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.

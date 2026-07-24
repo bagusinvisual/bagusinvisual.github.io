@@ -1,0 +1,9 @@
+software | Adobe Premiere Pro | 70%
+software | Adobe After Effects | 60%
+software | Adobe Photoshop | 55%
+software | Adobe Lightroom | 55%
+core | CapCut
+core | Videography
+core | Video Editing
+core | Photography
+core | Event Documentation
