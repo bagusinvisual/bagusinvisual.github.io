@@ -72,7 +72,7 @@
         }
     </style>
 </head>
-<body class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white">
+<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white">
 
     <!-- NAVBAR -->
     <header class="fixed top-0 w-full bg-brand-dark/90 backdrop-blur-xl z-40 border-b border-brand-border/60">
@@ -172,26 +172,23 @@
         </div>
     </section>
 
-    <!-- GALERI PORTOFOLIO (GRID 3x3 SIMILAR TO INSTAGRAM STYLE) -->
+    <!-- GALERI PORTOFOLIO UTAMA -->
     <section id="portofolio" class="py-28 px-6 max-w-7xl mx-auto border-t border-brand-border/60 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center mb-16">
             <h2 id="txt_porto_title" class="text-3xl sm:text-4xl font-bold mb-4">Galeri Portofolio</h2>
-            <p id="txt_porto_subtitle" class="text-slate-400">Klik salah satu karya untuk memutar preview video.</p>
+            <p id="txt_porto_subtitle" class="text-slate-400">Beberapa sorotan karya visual terbaik pilihan.</p>
         </div>
 
-        <!-- GRID 3 KOLOM (3x3 MAX 9 ITEMS) -->
         <div id="portoContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         </div>
 
-        <!-- TOMBOL LIHAT SEMUA GALERI -->
-        <div class="mt-12 text-center">
-            <a href="galeri.html" class="inline-flex items-center gap-3 bg-brand-red hover:bg-red-600 text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-brand-red/25 hover:scale-105 active:scale-95 group">
-                <span>Lihat Semua Galeri</span>
-                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-            </a>
-        </div>
+        <div class="mt-16 text-center space-y-6">
+            <div>
+                <a href="galeri.html" class="inline-flex items-center gap-2 bg-brand-red hover:bg-red-600 text-white text-sm font-bold px-6 py-3 rounded-full transition shadow-lg shadow-brand-red/20">
+                    <i class="fa-solid fa-images"></i> <span id="txt_porto_all_btn">Lihat Semua Galeri Portofolio</span>
+                </a>
+            </div>
 
-        <div class="mt-16 text-center">
             <p id="txt_porto_extra_text" class="text-slate-400 text-sm mb-4">Ingin melihat koleksi portofolio lengkap berdasarkan kategori?</p>
             <div class="flex flex-wrap justify-center gap-3">
                 <a href="https://bit.ly/weddingportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Wedding</a>
@@ -352,7 +349,8 @@
                         description: '',
                         category: 'General',
                         type: 'landscape',
-                        url: ''
+                        url: '',
+                        showInMain: 'yes'
                     };
 
                     lines.forEach(line => {
@@ -363,13 +361,16 @@
                         if (colonIndex !== -1) {
                             const key = trimmed.slice(0, colonIndex).trim().toLowerCase();
                             const val = trimmed.slice(colonIndex + 1).trim();
-                            if (key in itemData) {
+                            
+                            if (key === 'show in main') {
+                                itemData.showInMain = val.toLowerCase();
+                            } else if (key in itemData) {
                                 itemData[key] = val;
                             }
                         }
                     });
 
-                    if (itemData.url) {
+                    if (itemData.url && itemData.showInMain === 'yes') {
                         itemData.categoriesArray = itemData.category
                             .split(',')
                             .map(c => c.trim())
@@ -390,15 +391,12 @@
             const container = document.getElementById('portoContainer');
             container.innerHTML = '';
 
-            // Tampilkan maksimal 6 atau 9 karya untuk grid 3x3 di halaman utama
-            const displayItems = allPortoItems.slice(0, 9);
-
-            if (displayItems.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Belum ada karya portofolio.</div>`;
+            if (allPortoItems.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Tidak ada karya yang dipajang di beranda.</div>`;
                 return;
             }
 
-            displayItems.forEach((itemData, index) => {
+            allPortoItems.forEach((itemData, index) => {
                 const videoId = getYoutubeId(itemData.url);
                 if (!videoId) return;
 
@@ -408,7 +406,7 @@
                 let heightClass = 'h-64';
                 const typeLower = itemData.type.toLowerCase();
                 if (typeLower === 'portrait') {
-                    heightClass = 'h-80';
+                    heightClass = 'h-96';
                 } else if (typeLower === 'square') {
                     heightClass = 'h-72';
                 }
@@ -422,7 +420,7 @@
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                          style="animation-delay: ${staggerDelay}ms"
-                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal flex flex-col justify-between">
+                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal">
                         <div class="relative w-full overflow-hidden">
                             <img src="${imgUrl}" 
                                  onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
@@ -435,13 +433,11 @@
                             </div>
                         </div>
 
-                        <div class="p-6 space-y-2 relative z-10 bg-brand-card flex-1 flex flex-col justify-between">
-                            <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
-                                ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mt-1">${itemData.description}</p>` : ''}
-                            </div>
+                        <div class="p-6 space-y-2 relative z-10 bg-brand-card">
+                            <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
+                            ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${itemData.description}</p>` : ''}
                             
-                            <div class="pt-3 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                            <div class="pt-2 flex items-center gap-2 text-xs text-brand-red font-semibold">
                                 <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
                             </div>
                         </div>
