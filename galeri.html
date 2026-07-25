@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeri Portofolio — Bagus Wahyu Widodo</title>
+    <title id="txt_galeri_page_title">Portofolio - Bagus Wahyu Widodo</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -50,57 +50,60 @@
         .animate-modal {
             animation: modalFadeIn var(--gallery-anim-dur, 350ms) cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(var(--anim-distance, 40px));
+            transition: opacity var(--anim-duration, 1.2s) cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform var(--anim-duration, 1.2s) cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
-<body class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white min-h-screen flex flex-col justify-between">
+<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white min-h-screen flex flex-col justify-between">
 
     <!-- NAVBAR -->
     <header class="fixed top-0 w-full bg-brand-dark/90 backdrop-blur-xl z-40 border-b border-brand-border/60">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-extrabold tracking-wider">
+            <a href="index.html" id="txt_brand_logo" class="text-xl font-extrabold tracking-wider">
                 BAGUS<span class="text-brand-red">INVISUAL</span>
             </a>
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="inline-flex items-center gap-2 bg-brand-card hover:bg-slate-800 border border-brand-border text-slate-200 text-sm font-semibold px-4 py-2.5 rounded-full transition">
-                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
-                </a>
-            </div>
+            <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-brand-red transition">
+                <i class="fa-solid fa-arrow-left"></i> <span id="txt_galeri_back_btn">Kembali ke Beranda</span>
+            </a>
         </div>
     </header>
 
-    <!-- MAIN CONTENT GALERI LENGKAP WITH SIDEBAR FILTER -->
-    <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto w-full flex-1">
-        <div class="max-w-3xl mx-auto text-center mb-16">
-            <h1 class="text-3xl sm:text-5xl font-extrabold mb-4">Koleksi Galeri Portofolio</h1>
-            <p class="text-slate-400 text-base">Pilih kategori proyek di sebelah kiri untuk menyaring karya visual.</p>
+    <!-- CONTENT WRAPPER -->
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto w-full flex-grow bg-grid-pattern">
+        
+        <!-- HEADER KONTEN -->
+        <div class="max-w-3xl mb-12 space-y-4">
+            <h1 id="txt_galeri_header_title" class="text-3xl sm:text-5xl font-extrabold text-white">Semua Karya & Portofolio</h1>
+            <p id="txt_galeri_header_subtitle" class="text-slate-400 text-base sm:text-lg">Jelajahi seluruh karya visual terbaik berdasarkan kategori pilihan Anda.</p>
         </div>
 
+        <!-- LAYOUT SIDEBAR FILTER & GRID -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <!-- SIDEBAR FILTER CATEGORY -->
-            <div class="lg:col-span-3 bg-brand-card border border-brand-border p-4 rounded-3xl space-y-2 sticky top-28">
-                <div class="px-3 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-brand-border mb-2">
-                    Kategori Proyek
-                </div>
-                <div id="filterCategoryContainer" class="flex flex-col gap-1">
+            
+            <!-- SIDEBAR CATEGORIES FILTER -->
+            <div class="lg:col-span-3 bg-brand-card border border-brand-border p-5 rounded-3xl sticky top-28 space-y-3">
+                <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-2 mb-2">Kategori</h3>
+                <div id="categoryContainer" class="flex flex-col space-y-1">
                 </div>
             </div>
 
-            <!-- PORTOFOLIO GRID DISPLAY -->
+            <!-- PORTOFOLIO GRID (Ditambah items-start agar item dengan tinggi beda tidak saling memenjarakan) -->
             <div class="lg:col-span-9">
-                <div id="portoContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div id="portoContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
                 </div>
             </div>
-        </div>
 
-        <!-- EKSTRA LINK external PORTFOLIO -->
-        <div class="mt-20 text-center pt-10 border-t border-brand-border/60">
-            <p class="text-slate-400 text-sm mb-4">Lihat portofolio lengkap per-kategori di cloud drive / sosial media:</p>
-            <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://bit.ly/weddingportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Wedding Drive</a>
-                <a href="https://bit.ly/preweddingportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Prewedding Drive</a>
-                <a href="https://bit.ly/modelportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Model Showcase</a>
-                <a href="https://bit.ly/49Wd8QP" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Social Media Showcase</a>
-            </div>
         </div>
     </main>
 
@@ -122,18 +125,32 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-brand-card border-t border-brand-border py-10 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
-            <p>&copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.</p>
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="index.html#tentang" class="hover:text-brand-red transition">Beranda</a>
-                <span>•</span>
-                <a href="index.html#kontak" class="hover:text-brand-red transition">Kontak</a>
+    <footer id="kontak" class="bg-brand-card border-t border-brand-border py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left space-y-2">
+                <h3 id="txt_cta_title" class="text-xl font-bold text-white">Mari Kolaborasi Proyek Anda!</h3>
+                <p id="txt_cta_subtitle" class="text-slate-400 text-xs sm:text-sm">Terbuka untuk pekerjaan videografi, editing, maupun project jangka panjang.</p>
             </div>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://instagram.com/bagusinvisual" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a id="footerWaLink" href="#" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <a id="footerEmailLink" href="#" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Email">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-brand-border/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+            <p id="txt_footer_copyright">&copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT ENGINE UNTUK GALERI -->
+    <!-- SCRIPT ENGINE GALERI -->
     <script>
         let allPortoItems = [];
         let activeCategory = 'All Projects';
@@ -158,13 +175,49 @@
                     const [key, ...valArray] = trimmedLine.split('|').map(s => s.trim());
                     const val = valArray.join('|');
 
-                    if (key === 'gallery_anim_duration') {
+                    if (key === 'animation_duration') {
+                        document.documentElement.style.setProperty('--anim-duration', val);
+                    } else if (key === 'animation_distance') {
+                        document.documentElement.style.setProperty('--anim-distance', val);
+                    } else if (key === 'gallery_anim_duration') {
                         galleryAnimDuration = parseInt(val) || 350;
                         document.documentElement.style.setProperty('--gallery-anim-dur', `${galleryAnimDuration}ms`);
+                    } else if (key === 'galeri_page_title') {
+                        document.title = val;
+                    } else {
+                        const el = document.getElementById(`txt_${key}`);
+                        if (el) el.innerHTML = val;
                     }
                 });
             } catch (error) {
                 console.error("Gagal memuat setting.txt", error);
+            }
+        }
+
+        async function loadAboutMe() {
+            try {
+                const response = await fetch('aboutme.txt');
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+
+                lines.forEach(line => {
+                    if(!line.trim() || line.trim().startsWith('#')) return;
+                    const parts = line.split('|').map(s => s.trim());
+                    const key = parts[0];
+                    const val = parts[1];
+
+                    if (key === 'hp') {
+                        const cleanHp = val.replace(/[^0-9]/g, '');
+                        const waNumber = cleanHp.startsWith('0') ? '62' + cleanHp.slice(1) : cleanHp;
+                        const waEl = document.getElementById('footerWaLink');
+                        if (waEl) waEl.href = `https://wa.me/${waNumber}`;
+                    } else if (key === 'email') {
+                        const emailEl = document.getElementById('footerEmailLink');
+                        if (emailEl) emailEl.href = `mailto:${val}`;
+                    }
+                });
+            } catch (error) {
+                console.error("Gagal memuat aboutme.txt", error);
             }
         }
 
@@ -175,7 +228,6 @@
                 
                 const rawItems = text.split(/^---$/m);
                 allPortoItems = [];
-                const categoriesSet = new Set(['All Projects']);
 
                 rawItems.forEach(block => {
                     const lines = block.trim().split('\n');
@@ -184,7 +236,8 @@
                         description: '',
                         category: 'General',
                         type: 'landscape',
-                        url: ''
+                        url: '',
+                        showInMain: 'yes'
                     };
 
                     lines.forEach(line => {
@@ -195,7 +248,10 @@
                         if (colonIndex !== -1) {
                             const key = trimmed.slice(0, colonIndex).trim().toLowerCase();
                             const val = trimmed.slice(colonIndex + 1).trim();
-                            if (key in itemData) {
+                            
+                            if (key === 'show in main') {
+                                itemData.showInMain = val.toLowerCase();
+                            } else if (key in itemData) {
                                 itemData[key] = val;
                             }
                         }
@@ -208,11 +264,10 @@
                             .filter(c => c.length > 0);
 
                         allPortoItems.push(itemData);
-                        itemData.categoriesArray.forEach(cat => categoriesSet.add(cat));
                     }
                 });
 
-                renderFilterButtons(Array.from(categoriesSet));
+                renderCategories();
                 renderPortoGrid();
 
             } catch (error) {
@@ -220,40 +275,50 @@
             }
         }
 
-        function renderFilterButtons(categories) {
-            const container = document.getElementById('filterCategoryContainer');
+        function renderCategories() {
+            const container = document.getElementById('categoryContainer');
+            
+            const categoriesSet = new Set(['All Projects']);
+            allPortoItems.forEach(item => {
+                item.categoriesArray.forEach(c => categoriesSet.add(c));
+            });
+
             container.innerHTML = '';
 
-            categories.forEach(cat => {
+            categoriesSet.forEach(cat => {
                 const isActive = cat === activeCategory;
-                const btn = document.createElement('button');
-                btn.className = `w-full text-left px-5 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 ${
-                    isActive 
-                    ? 'bg-slate-800/90 text-white border-l-4 border-brand-red shadow-lg' 
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                }`;
-                btn.innerText = cat;
-                btn.onclick = () => {
-                    activeCategory = cat;
-                    renderFilterButtons(categories);
-                    renderPortoGrid();
-                };
-                container.appendChild(btn);
+                const activeClass = isActive 
+                    ? 'bg-brand-red text-white font-bold shadow-lg shadow-brand-red/20' 
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60 font-medium';
+
+                const btnHtml = `
+                    <button onclick="filterCategory('${cat.replace(/'/g, "\\'")}')" 
+                            class="w-full text-left px-4 py-3 rounded-2xl text-sm transition-all flex items-center justify-between ${activeClass}">
+                        <span>${cat}</span>
+                        ${isActive ? '<i class="fa-solid fa-chevron-right text-xs"></i>' : ''}
+                    </button>
+                `;
+                container.innerHTML += btnHtml;
             });
+        }
+
+        function filterCategory(catName) {
+            activeCategory = catName;
+            renderCategories();
+            renderPortoGrid();
         }
 
         function renderPortoGrid() {
             const container = document.getElementById('portoContainer');
             container.innerHTML = '';
 
-            const filteredItems = activeCategory === 'All Projects' 
-                ? allPortoItems 
-                : allPortoItems.filter(item => 
-                    item.categoriesArray.some(c => c.toLowerCase() === activeCategory.toLowerCase())
-                  );
+            const filteredItems = allPortoItems.filter(item => {
+                if (activeCategory === 'All Projects') return true;
+                return item.categoriesArray.includes(activeCategory);
+            });
 
             if (filteredItems.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Tidak ada karya untuk kategori ini.</div>`;
+                container.innerHTML = `<div class="col-span-full py-16 text-center text-slate-500 animate-modal">Tidak ada portofolio untuk kategori ini.</div>`;
                 return;
             }
 
@@ -264,29 +329,33 @@
                 const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                 const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-                let heightClass = 'h-64';
+                // PERBAIKAN PENTING: Gunakan aspect-ratio dari Tailwind, BUKAN height fixed (h-64/h-96/h-72)
+                let aspectClass = 'aspect-video'; // Default 16:9 Landscape
                 const typeLower = itemData.type.toLowerCase();
-                if (typeLower === 'portrait') {
-                    heightClass = 'h-96';
+                
+                if (typeLower === 'portrait' || typeLower === 'reels' || typeLower === 'story') {
+                    aspectClass = 'aspect-[9/16]';
                 } else if (typeLower === 'square') {
-                    heightClass = 'h-72';
+                    aspectClass = 'aspect-square';
                 }
 
                 const categoryBadgesHtml = itemData.categoriesArray.map(cat => 
                     `<span class="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase tracking-wider border border-white/10">${cat}</span>`
                 ).join(' ');
 
-                const staggerDelay = index * 50;
+                const staggerDelay = index * 40;
 
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                          style="animation-delay: ${staggerDelay}ms"
-                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal">
-                        <div class="relative w-full overflow-hidden">
+                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal flex flex-col">
+                        
+                        <!-- Box Wrapper Thumbnail yang Mengikuti Aspek Rasio -->
+                        <div class="relative w-full overflow-hidden ${aspectClass} bg-black/40">
                             <img src="${imgUrl}" 
                                  onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
                                  alt="${itemData.title}" 
-                                 class="w-full object-cover group-hover:scale-105 transition duration-500 ${heightClass}">
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
                             
                             <div class="absolute top-4 right-4 flex flex-wrap gap-1 justify-end max-w-[80%]">
@@ -294,11 +363,13 @@
                             </div>
                         </div>
 
-                        <div class="p-6 space-y-2 relative z-10 bg-brand-card">
-                            <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
-                            ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${itemData.description}</p>` : ''}
+                        <div class="p-6 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
+                                ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mt-1">${itemData.description}</p>` : ''}
+                            </div>
                             
-                            <div class="pt-2 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                            <div class="pt-3 flex items-center gap-2 text-xs text-brand-red font-semibold">
                                 <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
                             </div>
                         </div>
@@ -336,6 +407,7 @@
         document.addEventListener("DOMContentLoaded", async () => {
             await Promise.all([
                 loadSettings(),
+                loadAboutMe(),
                 loadPorto()
             ]);
         });
