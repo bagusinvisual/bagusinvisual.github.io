@@ -172,23 +172,23 @@
         </div>
     </section>
 
-    <!-- GALERI PORTOFOLIO WITH SIDEBAR FILTER -->
+    <!-- GALERI PORTOFOLIO (GRID 3x3 SIMILAR TO INSTAGRAM STYLE) -->
     <section id="portofolio" class="py-28 px-6 max-w-7xl mx-auto border-t border-brand-border/60 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center mb-16">
             <h2 id="txt_porto_title" class="text-3xl sm:text-4xl font-bold mb-4">Galeri Portofolio</h2>
-            <p id="txt_porto_subtitle" class="text-slate-400">Pilih kategori proyek di sebelah kiri untuk menyaring karya.</p>
+            <p id="txt_porto_subtitle" class="text-slate-400">Klik salah satu karya untuk memutar preview video.</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div class="lg:col-span-3 bg-brand-card border border-brand-border p-4 rounded-3xl space-y-2 sticky top-28">
-                <div id="filterCategoryContainer" class="flex flex-col gap-1">
-                </div>
-            </div>
+        <!-- GRID 3 KOLOM (3x3 MAX 9 ITEMS) -->
+        <div id="portoContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
 
-            <div class="lg:col-span-9">
-                <div id="portoContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                </div>
-            </div>
+        <!-- TOMBOL LIHAT SEMUA GALERI -->
+        <div class="mt-12 text-center">
+            <a href="galeri.html" class="inline-flex items-center gap-3 bg-brand-red hover:bg-red-600 text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-brand-red/25 hover:scale-105 active:scale-95 group">
+                <span>Lihat Semua Galeri</span>
+                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </a>
         </div>
 
         <div class="mt-16 text-center">
@@ -253,7 +253,6 @@
         let skillAnimDuration = 1000;
         let galleryAnimDuration = 350;
         let allPortoItems = [];
-        let activeCategory = 'All Projects';
         
         function getYoutubeId(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -345,7 +344,6 @@
                 
                 const rawItems = text.split(/^---$/m);
                 allPortoItems = [];
-                const categoriesSet = new Set(['All Projects']);
 
                 rawItems.forEach(block => {
                     const lines = block.trim().split('\n');
@@ -378,11 +376,9 @@
                             .filter(c => c.length > 0);
 
                         allPortoItems.push(itemData);
-                        itemData.categoriesArray.forEach(cat => categoriesSet.add(cat));
                     }
                 });
 
-                renderFilterButtons(Array.from(categoriesSet));
                 renderPortoGrid();
 
             } catch (error) {
@@ -390,44 +386,19 @@
             }
         }
 
-        function renderFilterButtons(categories) {
-            const container = document.getElementById('filterCategoryContainer');
-            container.innerHTML = '';
-
-            categories.forEach(cat => {
-                const isActive = cat === activeCategory;
-                const btn = document.createElement('button');
-                btn.className = `w-full text-left px-5 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 ${
-                    isActive 
-                    ? 'bg-slate-800/90 text-white border-l-4 border-brand-red shadow-lg' 
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                }`;
-                btn.innerText = cat;
-                btn.onclick = () => {
-                    activeCategory = cat;
-                    renderFilterButtons(categories);
-                    renderPortoGrid();
-                };
-                container.appendChild(btn);
-            });
-        }
-
         function renderPortoGrid() {
             const container = document.getElementById('portoContainer');
             container.innerHTML = '';
 
-            const filteredItems = activeCategory === 'All Projects' 
-                ? allPortoItems 
-                : allPortoItems.filter(item => 
-                    item.categoriesArray.some(c => c.toLowerCase() === activeCategory.toLowerCase())
-                  );
+            // Tampilkan maksimal 6 atau 9 karya untuk grid 3x3 di halaman utama
+            const displayItems = allPortoItems.slice(0, 9);
 
-            if (filteredItems.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Tidak ada karya untuk kategori ini.</div>`;
+            if (displayItems.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Belum ada karya portofolio.</div>`;
                 return;
             }
 
-            filteredItems.forEach((itemData, index) => {
+            displayItems.forEach((itemData, index) => {
                 const videoId = getYoutubeId(itemData.url);
                 if (!videoId) return;
 
@@ -437,7 +408,7 @@
                 let heightClass = 'h-64';
                 const typeLower = itemData.type.toLowerCase();
                 if (typeLower === 'portrait') {
-                    heightClass = 'h-96';
+                    heightClass = 'h-80';
                 } else if (typeLower === 'square') {
                     heightClass = 'h-72';
                 }
@@ -451,7 +422,7 @@
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                          style="animation-delay: ${staggerDelay}ms"
-                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal">
+                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal flex flex-col justify-between">
                         <div class="relative w-full overflow-hidden">
                             <img src="${imgUrl}" 
                                  onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
@@ -464,11 +435,13 @@
                             </div>
                         </div>
 
-                        <div class="p-6 space-y-2 relative z-10 bg-brand-card">
-                            <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
-                            ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${itemData.description}</p>` : ''}
+                        <div class="p-6 space-y-2 relative z-10 bg-brand-card flex-1 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
+                                ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mt-1">${itemData.description}</p>` : ''}
+                            </div>
                             
-                            <div class="pt-2 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                            <div class="pt-3 flex items-center gap-2 text-xs text-brand-red font-semibold">
                                 <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
                             </div>
                         </div>
