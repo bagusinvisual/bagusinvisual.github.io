@@ -3,16 +3,19 @@ description:
 category: Wedding Teaser
 type: landscape
 url: https://www.youtube.com/watch?v=mGKvqxxaPuI
+show in main: yes
 ---
 title: Wedding Teaser
 description: 
 category: Wedding Teaser
-type: landscape
+type: square
 url: https://www.youtube.com/watch?v=Yn9y-KvIEvY
+show in main: yes
 ---
 title: Wedding Reels/Story
 description: 
 category: Reels/Story
 type: Portrait
 url: https://www.youtube.com/watch?v=AyTCtuDusSs
+show in main: yes
 ---
