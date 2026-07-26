@@ -188,14 +188,17 @@
         </div>
     </section>
 
-    <!-- GALERI PORTOFOLIO UTAMA -->
-    <section id="portofolio" class="py-28 px-6 sm:px-10 lg:px-12 w-full border-t border-brand-border/60 reveal-on-scroll">
+    <!-- GALERI PORTOFOLIO UTAMA (MASONRY DENGAN PERATAAN TENGAH PRESISI) -->
+    <section id="portofolio" class="py-28 px-6 sm:px-10 max-w-7xl mx-auto w-full border-t border-brand-border/60 reveal-on-scroll">
         <div class="max-w-3xl mx-auto text-center mb-16">
             <h2 id="txt_porto_title" class="text-3xl sm:text-4xl font-bold mb-4">Galeri Portofolio</h2>
             <p id="txt_porto_subtitle" class="text-slate-400">Beberapa sorotan karya visual terbaik pilihan.</p>
         </div>
 
-        <div id="portoContainer" class="columns-1 sm:columns-2 md:columns-3 xl:columns-4 2xl:columns-5 gap-6 space-y-6 w-full">
+        <!-- WRAPPER UNTUK MEMASTIKAN MASONRY BERADA DI TENGAH LAYAR -->
+        <div class="flex justify-center w-full">
+            <div id="portoContainer" class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6 max-w-5xl w-full mx-auto">
+            </div>
         </div>
 
         <div class="mt-16 text-center space-y-6">
@@ -436,7 +439,7 @@
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                          style="animation-delay: ${staggerDelay}ms"
-                         class="break-inside-avoid mb-6 group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 opacity-0 animate-modal flex flex-col">
+                         class="break-inside-avoid group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 opacity-0 animate-modal flex flex-col mb-6">
                         
                         <div class="relative w-full overflow-hidden ${aspectClass} bg-black/40">
                             <img src="${imgUrl}" 
@@ -445,14 +448,14 @@
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
                             
-                            <div class="absolute top-4 right-4 flex flex-wrap gap-1 justify-end max-w-[80%]">
+                            <div class="absolute top-3 right-3 flex flex-wrap gap-1 justify-end max-w-[85%]">
                                 ${categoryBadgesHtml}
                             </div>
                         </div>
 
-                        <div class="p-6 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
+                        <div class="p-5 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
                             <div>
-                                <h4 class="text-base font-bold text-white group-hover:text-brand-red transition leading-snug">${itemData.title}</h4>
+                                <h4 class="text-sm font-bold text-white group-hover:text-brand-red transition leading-snug">${itemData.title}</h4>
                                 ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mt-1">${itemData.description}</p>` : ''}
                             </div>
                             
