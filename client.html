@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Private Gallery — BAGUSINVISUAL</title>
+    <title id="pageTitle">Gallery — BAGUSINVISUAL</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Plyr CSS & JS (Untuk menyembunyikan YouTube Total) -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -69,15 +64,6 @@
         }
         .animate-modal {
             animation: modalFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Warna Custom Plyr Player disesuaikan dengan tema Bagusinvisual */
-        :root {
-            --plyr-color-main: #FF2E4C;
-            --plyr-video-control-color: #ffffff;
-        }
-        .plyr--full-ui input[type=range] {
-            color: #FF2E4C !important;
         }
     </style>
 </head>
@@ -201,8 +187,6 @@
 
     <!-- SCRIPT ENGINE -->
     <script>
-        let plyrInstance = null; // Menyimpan instance player
-
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuBtn && mobileMenu) {
@@ -384,6 +368,7 @@
                     const videoId = getYoutubeId(item.url);
                     if (!videoId) return;
 
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
                     let aspectClass = 'aspect-video';
@@ -394,7 +379,7 @@
                     }
 
                     const cardHtml = `
-                        <div onclick="openVideoModal('${item.title.replace(/'/g, "\\'")}', '${videoId}')" 
+                        <div onclick="openVideoModal('${item.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                              class="break-inside-avoid group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 animate-modal flex flex-col mb-6">
                             
                             <div class="relative w-full overflow-hidden ${aspectClass} bg-black/40">
@@ -426,29 +411,34 @@
             document.getElementById('errorContainer').classList.remove('hidden');
         }
 
-        function openVideoModal(title, videoId) {
+        function openVideoModal(title, videoUrl) {
             const modal = document.getElementById('mediaModal');
             const modalBody = document.getElementById('modalBody');
             const modalTitle = document.getElementById('modalTitle');
 
             modalTitle.innerText = title;
             
-            // Injeksi Elemen Plyr Player untuk menyembunyikan branding YouTube
+            // Parameter rahasia YouTube + Overlay untuk menyamarkan uploader & menyembunyikan link YouTube
+            const cleanEmbedUrl = `${videoUrl}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+
             modalBody.innerHTML = `
-                <div class="w-full aspect-video bg-black rounded-b-2xl overflow-hidden">
-                    <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${videoId}"></div>
+                <div class="relative aspect-video w-full overflow-hidden bg-black rounded-b-2xl">
+                    <!-- Overlay Transparan Atas (Mencegah Klik Judul & Logo YouTube) -->
+                    <div class="absolute top-0 left-0 right-0 h-16 z-20 pointer-events-auto bg-transparent"></div>
+                    
+                    <!-- Video Player -->
+                    <iframe class="w-full h-full relative z-10" 
+                            src="${cleanEmbedUrl}" 
+                            title="${title}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
                 </div>
             `;
             
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-
-            // Inisialisasi Plyr Player
-            plyrInstance = new Plyr('#player', {
-                autoplay: true,
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
-            });
         }
 
         function openPhotoModal(title, photoUrl) {
@@ -466,12 +456,6 @@
         function closeMediaModal() {
             const modal = document.getElementById('mediaModal');
             const modalBody = document.getElementById('modalBody');
-
-            // Hapus instance Plyr saat modal ditutup agar video tidak berbunyi di background
-            if (plyrInstance) {
-                plyrInstance.destroy();
-                plyrInstance = null;
-            }
 
             modalBody.innerHTML = "";
             modal.classList.add('hidden');
