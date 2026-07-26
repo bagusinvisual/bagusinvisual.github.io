@@ -38,25 +38,9 @@
       document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     </script>
     <style>
-        /* PRO WALLPAPER STYLING */
-        .bg-pro-cinematic {
-            background-color: #0A0A0C;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(255, 46, 76, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 46, 76, 0.05) 0%, transparent 45%),
-                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 99;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         @keyframes modalFadeIn {
@@ -83,9 +67,9 @@
 </head>
 <body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white min-h-screen flex flex-col justify-between">
 
-    <!-- NAVBAR (Diubah ke px-8/px-12 w-full tanpa max-w limit) -->
-    <header class="fixed top-0 w-full bg-brand-dark/80 backdrop-blur-xl z-40 border-b border-brand-border/60">
-        <div class="w-full px-6 sm:px-10 lg:px-12 h-20 flex justify-between items-center">
+    <!-- NAVBAR -->
+    <header class="fixed top-0 w-full bg-brand-dark/90 backdrop-blur-xl z-40 border-b border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.html" id="txt_brand_logo" class="text-xl font-extrabold tracking-wider">
                 BAGUS<span class="text-brand-red">INVISUAL</span>
             </a>
@@ -95,28 +79,28 @@
         </div>
     </header>
 
-    <!-- CONTENT WRAPPER (Full Screen Width + Responsive Grid) -->
-    <main class="pt-32 pb-20 px-6 sm:px-10 lg:px-12 w-full flex-grow bg-pro-cinematic">
+    <!-- CONTENT WRAPPER -->
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto w-full flex-grow bg-grid-pattern">
         
         <!-- HEADER KONTEN -->
-        <div class="max-w-4xl mb-12 space-y-4">
-            <h1 id="txt_galeri_header_title" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Semua Karya & Portofolio</h1>
+        <div class="max-w-3xl mb-12 space-y-4">
+            <h1 id="txt_galeri_header_title" class="text-3xl sm:text-5xl font-extrabold text-white">Semua Karya & Portofolio</h1>
             <p id="txt_galeri_header_subtitle" class="text-slate-400 text-base sm:text-lg">Jelajahi seluruh karya visual terbaik berdasarkan kategori pilihan Anda.</p>
         </div>
 
         <!-- LAYOUT SIDEBAR FILTER & GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- SIDEBAR CATEGORIES FILTER (2 Column di PC besar) -->
-            <div class="lg:col-span-3 xl:col-span-2 bg-brand-card/90 backdrop-blur-md border border-brand-border p-5 rounded-3xl sticky top-28 space-y-3 shadow-xl">
+            <!-- SIDEBAR CATEGORIES FILTER -->
+            <div class="lg:col-span-3 bg-brand-card border border-brand-border p-5 rounded-3xl sticky top-28 space-y-3">
                 <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-2 mb-2">Kategori</h3>
                 <div id="categoryContainer" class="flex flex-col space-y-1">
                 </div>
             </div>
 
-            <!-- PORTOFOLIO GRID (Diisi 4-5 Kolom kalau di layar laptop/PC besar) -->
-            <div class="lg:col-span-9 xl:col-span-10">
-                <div id="portoContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 items-start">
+            <!-- PORTOFOLIO MASONRY GRID -->
+            <div class="lg:col-span-9">
+                <div id="portoContainer" class="columns-1 sm:columns-2 xl:columns-3 gap-6 space-y-6">
                 </div>
             </div>
 
@@ -127,7 +111,7 @@
     <div id="videoModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/80 backdrop-blur-md">
         <div onclick="closeVideoModal()" class="absolute inset-0"></div>
 
-        <div class="relative w-full max-w-5xl bg-brand-card border border-brand-border rounded-3xl overflow-hidden shadow-2xl z-10 animate-modal">
+        <div class="relative w-full max-w-4xl bg-brand-card border border-brand-border rounded-3xl overflow-hidden shadow-2xl z-10 animate-modal">
             <div class="px-6 py-4 border-b border-brand-border flex justify-between items-center bg-brand-dark/50">
                 <h3 id="modalTitle" class="font-bold text-base sm:text-lg text-white">Video Preview</h3>
                 <button onclick="closeVideoModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-brand-red flex items-center justify-center transition">
@@ -140,9 +124,9 @@
         </div>
     </div>
 
-    <!-- FOOTER (Full Screen Width) -->
-    <footer id="kontak" class="bg-brand-card border-t border-brand-border py-12 px-6 sm:px-10 lg:px-12 w-full">
-        <div class="w-full flex flex-col md:flex-row justify-between items-center gap-8">
+    <!-- FOOTER -->
+    <footer id="kontak" class="bg-brand-card border-t border-brand-border py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="text-center md:text-left space-y-2">
                 <h3 id="txt_cta_title" class="text-xl font-bold text-white">Mari Kolaborasi Proyek Anda!</h3>
                 <p id="txt_cta_subtitle" class="text-slate-400 text-xs sm:text-sm">Terbuka untuk pekerjaan videografi, editing, maupun project jangka panjang.</p>
@@ -161,7 +145,7 @@
             </div>
         </div>
 
-        <div class="w-full mt-8 pt-6 border-t border-brand-border/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-brand-border/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
             <p id="txt_footer_copyright">&copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.</p>
         </div>
     </footer>
@@ -304,8 +288,8 @@
             categoriesSet.forEach(cat => {
                 const isActive = cat === activeCategory;
                 const activeClass = isActive 
-                    ? 'bg-brand-red text-white font-bold shadow-lg shadow-brand-red/25 border border-brand-red/50' 
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50 font-medium border border-transparent';
+                    ? 'bg-brand-red text-white font-bold shadow-lg shadow-brand-red/20' 
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60 font-medium';
 
                 const btnHtml = `
                     <button onclick="filterCategory('${cat.replace(/'/g, "\\'")}')" 
@@ -345,13 +329,12 @@
                 const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                 const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-                let aspectClass = 'aspect-video';
+                let heightClass = 'h-64';
                 const typeLower = itemData.type.toLowerCase();
-                
-                if (typeLower === 'portrait' || typeLower === 'reels' || typeLower === 'story') {
-                    aspectClass = 'aspect-[9/16]';
+                if (typeLower === 'portrait') {
+                    heightClass = 'h-96';
                 } else if (typeLower === 'square') {
-                    aspectClass = 'aspect-square';
+                    heightClass = 'h-72';
                 }
 
                 const categoryBadgesHtml = itemData.categoriesArray.map(cat => 
@@ -363,13 +346,12 @@
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                          style="animation-delay: ${staggerDelay}ms"
-                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 opacity-0 animate-modal flex flex-col">
-                        
-                        <div class="relative w-full overflow-hidden ${aspectClass} bg-black/40">
+                         class="break-inside-avoid mb-6 group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal">
+                        <div class="relative w-full overflow-hidden">
                             <img src="${imgUrl}" 
                                  onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
                                  alt="${itemData.title}" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                 class="w-full object-cover group-hover:scale-105 transition duration-500 ${heightClass}">
                             <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
                             
                             <div class="absolute top-4 right-4 flex flex-wrap gap-1 justify-end max-w-[80%]">
@@ -377,11 +359,9 @@
                             </div>
                         </div>
 
-                        <div class="p-5 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
-                            <div>
-                                <h4 class="text-base font-bold text-white group-hover:text-brand-red transition leading-snug">${itemData.title}</h4>
-                                ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mt-1">${itemData.description}</p>` : ''}
-                            </div>
+                        <div class="p-6 space-y-2 relative z-10 bg-brand-card">
+                            <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
+                            ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${itemData.description}</p>` : ''}
                             
                             <div class="pt-2 flex items-center gap-2 text-xs text-brand-red font-semibold">
                                 <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
