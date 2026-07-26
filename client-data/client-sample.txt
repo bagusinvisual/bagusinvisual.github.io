@@ -1,0 +1,35 @@
+-----HEADLINE-----
+name: isi nama disini
+category: Wedding Video & Photo
+date: tanggal disini
+drive: link drive disini
+desc:
+///
+Berikut adalah koleksi foto dan video video client.
+isi disini textnya
+///
+
+-----MEDIA ISI DISINI-----
+-   VIDEO DIBAWAH SINI   -
+--------------------------
+---
+title: Wedding Teaser 1 Menit
+desc:isi deskripsi video
+type: landscape
+url: https://www.youtube.com/watch?v=Yn9y-KvIEvY
+---
+title: Wedding Teaser 1 Menit
+desc: isi deskripsi video
+type: portrait
+url: https://www.youtube.com/watch?v=mGKvqxxaPuI
+---
+
+--------------------------
+-   FOTO DIBAWAH SINI    -
+--------------------------
+---
+title: Foto Akad Nikah 01
+desc: Momen ijab kabul
+type: photo
+url: https://drive.google.com/file/d/1_VxmcbZi1jANwkn-XmRfk4VsqU-zCvcm/view?usp=sharing
+---

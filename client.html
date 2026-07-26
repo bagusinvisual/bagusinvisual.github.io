@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Private Gallery — BAGUSINVISUAL</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#FF2E4C',
+                            dark: '#0A0A0C',
+                            card: '#121216',
+                            border: '#22222A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12') e.preventDefault();
+        if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) e.preventDefault();
+        if (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) e.preventDefault();
+      });
+      document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    </script>
+    <style>
+        .bg-pro-cinematic {
+            background-color: #0A0A0C;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(255, 46, 76, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 46, 76, 0.05) 0%, transparent 45%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-modal {
+            animation: modalFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white bg-pro-cinematic min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR HEADER -->
+    <header class="fixed top-0 w-full bg-brand-dark/80 backdrop-blur-xl z-40 border-b border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-extrabold tracking-wider">
+                BAGUS<span class="text-brand-red">INVISUAL</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                <a id="headerWaBtn" href="#" target="_blank" class="bg-brand-red hover:bg-red-600 text-white px-5 py-2.5 rounded-full transition shadow-lg shadow-brand-red/20 flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp"></i> Kontak Kami
+                </a>
+            </nav>
+
+            <button id="mobileMenuBtn" class="md:hidden text-slate-300 hover:text-white text-xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-brand-card/95 border-b border-brand-border px-6 py-4">
+            <a id="mobileWaBtn" href="#" target="_blank" class="inline-flex items-center gap-2 w-full justify-center bg-brand-red text-white py-2.5 rounded-full font-semibold">
+                <i class="fa-brands fa-whatsapp"></i> Kontak Kami
+            </a>
+        </div>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="pt-32 pb-20 px-6 sm:px-10 max-w-6xl mx-auto w-full flex-grow">
+        
+        <div id="errorContainer" class="hidden text-center py-20 space-y-4">
+            <i class="fa-solid fa-folder-open text-5xl text-brand-red"></i>
+            <h2 class="text-2xl font-bold text-white">Galeri Tidak Ditemukan</h2>
+            <p class="text-slate-400">Silakan periksa kembali link yang Anda akses atau hubungi Bagusinvisual.</p>
+            <a href="index.html" class="inline-block mt-4 bg-brand-red hover:bg-red-600 text-white font-semibold px-6 py-2.5 rounded-full transition">
+                Kembali ke Beranda
+            </a>
+        </div>
+
+        <div id="mainContent" class="space-y-12 hidden">
+            
+            <!-- CLIENT HEADER HERO -->
+            <div class="bg-brand-card/90 backdrop-blur-md border border-brand-border p-8 sm:p-10 rounded-3xl space-y-4 relative overflow-hidden shadow-2xl">
+                <div class="absolute -top-12 -right-12 w-48 h-48 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="flex flex-wrap items-center gap-3">
+                    <span id="clientCategory" class="text-xs font-bold uppercase tracking-wider text-brand-red bg-brand-red/10 border border-brand-red/30 px-3 py-1 rounded-full">Project Gallery</span>
+                    <span id="clientDate" class="text-xs text-slate-400"><i class="fa-regular fa-calendar me-1"></i> -</span>
+                </div>
+
+                <h1 id="clientName" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">-</h1>
+                <div id="clientDesc" class="text-slate-400 text-base sm:text-lg max-w-3xl leading-relaxed space-y-2">-</div>
+
+                <div id="driveContainer" class="pt-2 hidden">
+                    <a id="driveBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-brand-red border border-slate-700 hover:border-brand-red text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition">
+                        <i class="fa-solid fa-cloud-arrow-down text-brand-red"></i> Download Master Files (Google Drive)
+                    </a>
+                </div>
+            </div>
+
+            <!-- GALLERY GRID -->
+            <div class="space-y-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-photo-film text-brand-red"></i> Koleksi Media
+                </h3>
+                
+                <div id="portoContainer" class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                    <!-- Media Items (Video & Photo) Injected Here -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL POPUP (VIDEO & FOTO) -->
+    <div id="mediaModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/80 backdrop-blur-md">
+        <div onclick="closeMediaModal()" class="absolute inset-0"></div>
+
+        <div class="relative w-full max-w-5xl bg-brand-card border border-brand-border rounded-3xl overflow-hidden shadow-2xl z-10 animate-modal">
+            <div class="px-6 py-4 border-b border-brand-border flex justify-between items-center bg-brand-dark/50">
+                <h3 id="modalTitle" class="font-bold text-base sm:text-lg text-white">Media Preview</h3>
+                <button onclick="closeMediaModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-brand-red flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="modalBody" class="relative w-full bg-black min-h-[300px] flex items-center justify-center">
+                <!-- Dynamic Video / Photo Injected Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="w-full bg-brand-card border-t border-brand-border py-12 px-6 sm:px-10 mt-auto">
+        <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left space-y-2">
+                <h3 class="text-xl font-bold text-white">Dokumentasi & Visual oleh Bagusinvisual</h3>
+                <p class="text-slate-400 text-xs sm:text-sm">Terima kasih telah memercayakan momen berharga Anda bersama kami.</p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://instagram.com/bagusinvisual" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a id="footerWaLink" href="#" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <a id="footerEmailLink" href="#" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Email">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="w-full max-w-7xl mx-auto mt-8 pt-6 border-t border-brand-border/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+            <p>&copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT ENGINE -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        function getYoutubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function getDriveFileId(urlOrId) {
+            if (!urlOrId) return null;
+            if (urlOrId.length > 20 && !urlOrId.includes('/') && !urlOrId.includes('.')) return urlOrId;
+            const match = urlOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            return match ? match[1] : null;
+        }
+
+        async function loadAboutMe() {
+            try {
+                const response = await fetch('aboutme.txt');
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+
+                lines.forEach(line => {
+                    if(!line.trim() || line.trim().startsWith('#')) return;
+                    const parts = line.split('|').map(s => s.trim());
+                    const key = parts[0];
+                    const val = parts[1];
+
+                    if (key === 'hp') {
+                        const cleanHp = val.replace(/[^0-9]/g, '');
+                        const waNumber = cleanHp.startsWith('0') ? '62' + cleanHp.slice(1) : cleanHp;
+                        const waUrl = `https://wa.me/${waNumber}`;
+                        
+                        const footerWa = document.getElementById('footerWaLink');
+                        const headerWa = document.getElementById('headerWaBtn');
+                        const mobileWa = document.getElementById('mobileWaBtn');
+
+                        if (footerWa) footerWa.href = waUrl;
+                        if (headerWa) headerWa.href = waUrl;
+                        if (mobileWa) mobileWa.href = waUrl;
+                    } else if (key === 'email') {
+                        const emailEl = document.getElementById('footerEmailLink');
+                        if (emailEl) emailEl.href = `mailto:${val}`;
+                    }
+                });
+            } catch (error) {
+                console.error("Gagal memuat aboutme.txt", error);
+            }
+        }
+
+        async function loadClientData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const clientId = urlParams.get('id');
+
+            if (!clientId) {
+                showError();
+                return;
+            }
+
+            try {
+                const response = await fetch(`client-data/${clientId}.txt`);
+                if (!response.ok) {
+                    showError();
+                    return;
+                }
+
+                const text = await response.text();
+                // Memisahkan file berdasarkan pembatas "---"
+                const rawBlocks = text.split(/^---$/m);
+
+                let clientMeta = { name: 'Client Project', category: 'General Project', date: '', desc: '', drive: '' };
+                let mediaItems = [];
+
+                function parseBlockText(blockContent, defaultObject) {
+                    const result = { ...defaultObject };
+                    const regex = /([a-zA-Z0-9_-]+):\s*(?:\/\/\/\s*\n([\s\S]*?)\n\/\/\/|([^\n]*))/g;
+                    let match;
+
+                    while ((match = regex.exec(blockContent)) !== null) {
+                        const key = match[1].toLowerCase().trim();
+                        let value = match[2] !== undefined ? match[2] : (match[3] !== undefined ? match[3] : '');
+
+                        if (key in result) {
+                            result[key] = value.trim().replace(/\r?\n/g, '<br>');
+                        }
+                    }
+                    return result;
+                }
+
+                rawBlocks.forEach((block) => {
+                    const trimmedBlock = block.trim();
+                    if (!trimmedBlock) return;
+
+                    // Mengambil HEADLINE / Metadata Utama
+                    if (trimmedBlock.toLowerCase().includes('name:') || trimmedBlock.toLowerCase().includes('category:')) {
+                        clientMeta = parseBlockText(trimmedBlock, clientMeta);
+                    } 
+                    // Mengambil Item Media jika mengandung URL atau Drive ID
+                    else if (trimmedBlock.toLowerCase().includes('url:') || trimmedBlock.toLowerCase().includes('drive_id:')) {
+                        const itemData = parseBlockText(trimmedBlock, { title: '', desc: '', type: 'landscape', url: '', drive_id: '' });
+                        if (itemData.url || itemData.drive_id) mediaItems.push(itemData);
+                    }
+                });
+
+                renderClientInfo(clientMeta);
+                renderMediaGrid(mediaItems);
+
+                document.getElementById('mainContent').classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Gagal memuat data client:", error);
+                showError();
+            }
+        }
+
+        function renderClientInfo(meta) {
+            document.title = `${meta.name} — Galeri Portofolio Client`;
+            document.getElementById('clientName').innerText = meta.name;
+            document.getElementById('clientCategory').innerText = meta.category;
+            document.getElementById('clientDate').innerHTML = `<i class="fa-regular fa-calendar me-1"></i> ${meta.date || '-'}`;
+            document.getElementById('clientDesc').innerHTML = meta.desc;
+
+            if (meta.drive) {
+                const driveBtn = document.getElementById('driveBtn');
+                driveBtn.href = meta.drive;
+                document.getElementById('driveContainer').classList.remove('hidden');
+            }
+        }
+
+        function renderMediaGrid(items) {
+            const container = document.getElementById('portoContainer');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500">Belum ada media yang diunggah di galeri ini.</div>`;
+                return;
+            }
+
+            items.forEach((item) => {
+                const typeLower = item.type.toLowerCase();
+
+                if (typeLower === 'photo' || typeLower === 'foto' || item.drive_id) {
+                    // Item Foto Google Drive
+                    const driveId = getDriveFileId(item.drive_id || item.url);
+                    if (!driveId) return;
+
+                    const photoUrl = `https://lh3.googleusercontent.com/d/${driveId}=s1600`;
+
+                    const cardHtml = `
+                        <div onclick="openPhotoModal('${item.title.replace(/'/g, "\\'")}', '${photoUrl}')" 
+                             class="break-inside-avoid group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 animate-modal flex flex-col mb-6">
+                            
+                            <div class="relative w-full overflow-hidden bg-black/40">
+                                <img src="${photoUrl}" 
+                                     alt="${item.title}" 
+                                     loading="lazy"
+                                     class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
+                            </div>
+
+                            <div class="p-5 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-bold text-white group-hover:text-brand-red transition leading-snug">${item.title || 'Foto Gallery'}</h4>
+                                    ${item.desc ? `<div class="text-xs text-slate-400 leading-relaxed mt-1">${item.desc}</div>` : ''}
+                                </div>
+                                
+                                <div class="pt-3 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                                    <i class="fa-solid fa-expand text-sm"></i> <span>Lihat Foto</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHtml;
+
+                } else {
+                    // Item Video YouTube
+                    const videoId = getYoutubeId(item.url);
+                    if (!videoId) return;
+
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                    const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+                    let aspectClass = 'aspect-video';
+                    if (typeLower === 'portrait' || typeLower === 'reels' || typeLower === 'story') {
+                        aspectClass = 'aspect-[9/16]';
+                    } else if (typeLower === 'square') {
+                        aspectClass = 'aspect-square';
+                    }
+
+                    const cardHtml = `
+                        <div onclick="openVideoModal('${item.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
+                             class="break-inside-avoid group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 animate-modal flex flex-col mb-6">
+                            
+                            <div class="relative w-full overflow-hidden ${aspectClass} bg-black/40">
+                                <img src="${imgUrl}" 
+                                     onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
+                                     alt="${item.title}" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition duration-300"></div>
+                            </div>
+
+                            <div class="p-5 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-bold text-white group-hover:text-brand-red transition leading-snug">${item.title}</h4>
+                                    ${item.desc ? `<div class="text-xs text-slate-400 leading-relaxed mt-1">${item.desc}</div>` : ''}
+                                </div>
+                                
+                                <div class="pt-3 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                                    <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHtml;
+                }
+            });
+        }
+
+        function showError() {
+            document.getElementById('errorContainer').classList.remove('hidden');
+        }
+
+        function openVideoModal(title, videoUrl) {
+            const modal = document.getElementById('mediaModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalTitle = document.getElementById('modalTitle');
+
+            modalTitle.innerText = title;
+            modalBody.innerHTML = `<div class="aspect-video w-full"><iframe class="w-full h-full" src="${videoUrl}?autoplay=1" title="Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openPhotoModal(title, photoUrl) {
+            const modal = document.getElementById('mediaModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalTitle = document.getElementById('modalTitle');
+
+            modalTitle.innerText = title;
+            modalBody.innerHTML = `<div class="p-4 flex items-center justify-center max-h-[80vh] overflow-hidden"><img src="${photoUrl}" alt="${title}" class="max-h-[75vh] w-auto object-contain rounded-xl shadow-2xl"></div>`;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMediaModal() {
+            const modal = document.getElementById('mediaModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = "";
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") closeMediaModal();
+        });
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            await Promise.all([
+                loadAboutMe(),
+                loadClientData()
+            ]);
+        });
+    </script>
+</body>
+</html>
