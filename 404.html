@@ -1,1 +1,186 @@
-kosong
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Tidak Ditemukan | BAGUSINVISUAL</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#FF2E4C',
+                            dark: '#0A0A0C',
+                            card: '#121216',
+                            border: '#22222A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+      // Mencegah F12, Inspect Element, & Context Menu (Sama seperti halaman utama)
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12') e.preventDefault();
+        if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) e.preventDefault();
+        if (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) e.preventDefault();
+      });
+      document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    </script>
+    <style>
+        /* PRO CINEMATIC WALLPAPER STYLING */
+        .bg-pro-cinematic {
+            background-color: #0A0A0C;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(255, 46, 76, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 46, 76, 0.05) 0%, transparent 45%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-modal {
+            animation: modalFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Glitch Effect Subtle */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .glitch-hover:hover {
+            animation: glitch 0.3s ease infinite;
+        }
+    </style>
+</head>
+<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white bg-pro-cinematic min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR HEADER -->
+    <header class="fixed top-0 w-full bg-brand-dark/80 backdrop-blur-xl z-40 border-b border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-extrabold tracking-wider">
+                BAGUS<span class="text-brand-red">INVISUAL</span>
+            </a>
+
+            <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-brand-red transition">
+                <i class="fa-solid fa-arrow-left"></i> <span>Kembali ke Beranda</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- CONTENT MAIN (CENTERED 404) -->
+    <main class="pt-28 pb-16 px-6 sm:px-10 max-w-4xl mx-auto w-full flex-grow flex items-center justify-center">
+        <div class="w-full text-center space-y-8 animate-modal">
+            
+            <!-- HERO BADGE / ICON -->
+            <div class="relative inline-block">
+                <div class="absolute -inset-4 bg-brand-red/20 rounded-full blur-2xl"></div>
+                <div class="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-3xl bg-brand-card border border-brand-border flex items-center justify-center shadow-2xl">
+                    <i class="fa-solid fa-video-slash text-4xl sm:text-5xl text-brand-red glitch-hover"></i>
+                </div>
+            </div>
+
+            <!-- BIG TEXT 404 -->
+            <div class="space-y-2">
+                <h1 class="text-7xl sm:text-9xl font-extrabold tracking-extratight text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-200 to-slate-600">
+                    404
+                </h1>
+                <h2 class="text-xl sm:text-3xl font-bold text-white tracking-tight">
+                    Frame / Halaman Tidak Ditemukan
+                </h2>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <p class="text-slate-400 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+                Tampaknya adegan atau tautan yang Anda cari telah dipindah, dihapus, atau tidak pernah ada di dalam garis waktu ini.
+            </p>
+
+            <!-- ACTION BUTTONS -->
+            <div class="pt-4 flex flex-wrap justify-center gap-4">
+                <a href="index.html" class="inline-flex items-center gap-2 bg-brand-red hover:bg-red-600 text-white font-semibold text-sm px-6 py-3 rounded-full transition shadow-lg shadow-brand-red/20">
+                    <i class="fa-solid fa-house"></i> Ke Beranda Utama
+                </a>
+                <a href="galeri.html" class="inline-flex items-center gap-2 bg-brand-card hover:bg-slate-800 border border-brand-border hover:border-brand-red/50 text-slate-200 font-semibold text-sm px-6 py-3 rounded-full transition">
+                    <i class="fa-solid fa-images"></i> Lihat Galeri Portofolio
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full bg-brand-card border-t border-brand-border py-8 px-6 sm:px-10 mt-auto">
+        <div class="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.</p>
+            <div class="flex items-center gap-4">
+                <a href="https://instagram.com/bagusinvisual" target="_blank" class="hover:text-brand-red transition"><i class="fa-brands fa-instagram text-base"></i></a>
+                <a id="footerWaLink" href="#" target="_blank" class="hover:text-brand-red transition"><i class="fa-brands fa-whatsapp text-base"></i></a>
+                <a id="footerEmailLink" href="#" class="hover:text-brand-red transition"><i class="fa-solid fa-envelope text-base"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT ENGINE -->
+    <script>
+        async function loadAboutMe() {
+            try {
+                const response = await fetch('aboutme.txt');
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+
+                lines.forEach(line => {
+                    if(!line.trim() || line.trim().startsWith('#')) return;
+                    const parts = line.split('|').map(s => s.trim());
+                    const key = parts[0];
+                    const val = parts[1];
+
+                    if (key === 'hp') {
+                        const cleanHp = val.replace(/[^0-9]/g, '');
+                        const waNumber = cleanHp.startsWith('0') ? '62' + cleanHp.slice(1) : cleanHp;
+                        const waEl = document.getElementById('footerWaLink');
+                        if (waEl) waEl.href = `https://wa.me/${waNumber}`;
+                    } else if (key === 'email') {
+                        const emailEl = document.getElementById('footerEmailLink');
+                        if (emailEl) emailEl.href = `mailto:${val}`;
+                    }
+                });
+            } catch (error) {
+                console.error("Gagal memuat aboutme.txt", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadAboutMe();
+        });
+    </script>
+</body>
+</html>
