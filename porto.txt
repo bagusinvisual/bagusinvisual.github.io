@@ -31,5 +31,5 @@ description:
 category: Wedding Teaser
 type: Landscape
 url: https://youtu.be/d9MGINA4yiQ
-show in main: yes
+show in main: no
 ---
