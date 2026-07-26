@@ -22,7 +22,7 @@ show in main: yes
 title: Prewedding
 description: 
 category: Prewedding
-type: Square
+type: Landscape
 url: https://youtu.be/tApXfH44IPg
 show in main: yes
 ---
