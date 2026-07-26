@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="txt_galeri_page_title">Portofolio - Bagus Wahyu Widodo</title>
+    <title>Bagus Wahyu Widodo — Videographer & Editor</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -38,9 +38,25 @@
       document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     </script>
     <style>
-        .bg-grid-pattern {
-            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-            background-size: 30px 30px;
+        /* PRO CINEMATIC WALLPAPER STYLING */
+        .bg-pro-cinematic {
+            background-color: #0A0A0C;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(255, 46, 76, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 46, 76, 0.05) 0%, transparent 45%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         @keyframes modalFadeIn {
@@ -49,6 +65,13 @@
         }
         .animate-modal {
             animation: modalFadeIn var(--gallery-anim-dur, 350ms) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .typing-cursor {
+            animation: blink 0.7s infinite;
         }
 
         .reveal-on-scroll {
@@ -65,53 +88,138 @@
         }
     </style>
 </head>
-<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white min-h-screen flex flex-col justify-between">
+<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white bg-pro-cinematic min-h-screen flex flex-col justify-between">
 
     <!-- NAVBAR -->
-    <header class="fixed top-0 w-full bg-brand-dark/90 backdrop-blur-xl z-40 border-b border-brand-border/60">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="index.html" id="txt_brand_logo" class="text-xl font-extrabold tracking-wider">
+    <header class="fixed top-0 w-full bg-brand-dark/80 backdrop-blur-xl z-40 border-b border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex justify-between items-center">
+            <a href="#tentang" id="txt_brand_logo" class="nav-link text-xl font-extrabold tracking-wider">
                 BAGUS<span class="text-brand-red">INVISUAL</span>
             </a>
-            <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-brand-red transition">
-                <i class="fa-solid fa-arrow-left"></i> <span id="txt_galeri_back_btn">Kembali ke Beranda</span>
-            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#tentang" id="txt_nav_about" class="nav-link hover:text-brand-red transition-colors">Tentang</a>
+                <a href="#pengalaman" id="txt_nav_exp" class="nav-link hover:text-brand-red transition-colors">Pengalaman</a>
+                <a href="#keahlian" id="txt_nav_skills" class="nav-link hover:text-brand-red transition-colors">Keahlian</a>
+                <a href="#portofolio" id="txt_nav_porto" class="nav-link hover:text-brand-red transition-colors">Portofolio</a>
+                <a href="#kontak" id="txt_nav_contact_btn" class="nav-link bg-brand-red hover:bg-red-600 text-white font-semibold px-5 py-2.5 rounded-full transition-all shadow-lg shadow-brand-red/20">Hubungi Saya</a>
+            </nav>
         </div>
     </header>
 
-    <!-- CONTENT WRAPPER -->
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto w-full flex-grow bg-grid-pattern">
-        
-        <!-- HEADER KONTEN -->
-        <div class="max-w-3xl mb-12 space-y-4">
-            <h1 id="txt_galeri_header_title" class="text-3xl sm:text-5xl font-extrabold text-white">Semua Karya & Portofolio</h1>
-            <p id="txt_galeri_header_subtitle" class="text-slate-400 text-base sm:text-lg">Jelajahi seluruh karya visual terbaik berdasarkan kategori pilihan Anda.</p>
-        </div>
-
-        <!-- LAYOUT SIDEBAR FILTER & GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- SIDEBAR CATEGORIES FILTER -->
-            <div class="lg:col-span-3 bg-brand-card border border-brand-border p-5 rounded-3xl sticky top-28 space-y-3">
-                <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider px-2 mb-2">Kategori</h3>
-                <div id="categoryContainer" class="flex flex-col space-y-1">
+    <!-- HERO SECTION (Dikembalikan ke max-w-7xl agar rapat & proporsional) -->
+    <section id="tentang" class="relative pt-36 pb-20 px-6 sm:px-10 max-w-7xl mx-auto w-full min-h-screen flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10 w-full">
+            <div class="lg:col-span-4 flex justify-center lg:justify-start">
+                <div class="relative group w-full max-w-xs sm:max-w-sm">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-brand-red to-rose-600 rounded-3xl blur opacity-30 group-hover:opacity-70 transition duration-1000"></div>
+                    <div class="relative w-full aspect-[4/5] rounded-3xl overflow-hidden border border-brand-border bg-brand-card">
+                        <img src="aset/foto.png" alt="Bagus Wahyu Widodo" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
+                    </div>
                 </div>
             </div>
 
-            <!-- PORTOFOLIO GRID (Ditambah items-start agar item dengan tinggi beda tidak saling memenjarakan) -->
-            <div class="lg:col-span-9">
-                <div id="portoContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+            <div class="lg:col-span-8 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-red/30 bg-brand-red/10 text-brand-red text-xs font-bold uppercase tracking-widest">
+                    <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+                    <span id="aboutRole">Loading...</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight min-h-[100px] flex items-center justify-center lg:justify-start">
+                    <span>
+                        <span id="typedText" class="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-brand-red"></span><span class="typing-cursor text-brand-red font-light">|</span>
+                    </span>
+                </h1>
+
+                <p id="aboutBio" class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                    Loading bio...
+                </p>
+
+                <div class="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start text-xs sm:text-sm text-slate-300">
+                    <span class="bg-brand-card/90 backdrop-blur-md border border-brand-border px-4 py-2.5 rounded-xl flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-brand-red"></i> <span id="aboutAlamat">-</span>
+                    </span>
+                    <a id="aboutHpLink" href="#" target="_blank" class="bg-brand-card/90 backdrop-blur-md border border-brand-border hover:border-brand-red/50 px-4 py-2.5 rounded-xl flex items-center gap-2 transition">
+                        <i class="fa-solid fa-phone text-brand-red"></i> <span id="aboutHpText">-</span>
+                    </a>
+                    <a id="aboutEmailLink" href="#" class="bg-brand-card/90 backdrop-blur-md border border-brand-border hover:border-brand-red/50 px-4 py-2.5 rounded-xl flex items-center gap-2 transition">
+                        <i class="fa-solid fa-envelope text-brand-red"></i> <span id="aboutEmailText">-</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RIWAYAT PEKERJAAN -->
+    <section id="pengalaman" class="py-28 px-6 sm:px-10 max-w-7xl mx-auto w-full border-t border-brand-border/60 reveal-on-scroll">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <h2 id="txt_exp_title" class="text-3xl sm:text-4xl font-bold mb-4">Riwayat Pekerjaan</h2>
+            <p id="txt_exp_subtitle" class="text-slate-400">Pengalaman profesional dalam industri kreatif videografi dan editing.</p>
+        </div>
+
+        <div id="riwayatContainer" class="max-w-4xl mx-auto relative border-l-2 border-brand-border pl-8 sm:pl-10 space-y-12">
+        </div>
+    </section>
+
+    <!-- KEAHLIAN & SOFTWARE -->
+    <section id="keahlian" class="py-28 px-6 sm:px-10 max-w-7xl mx-auto w-full border-t border-brand-border/60 reveal-on-scroll">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <h2 id="txt_skills_title" class="text-3xl sm:text-4xl font-bold mb-4">Keahlian & Tools</h2>
+            <p id="txt_skills_subtitle" class="text-slate-400">Software dan perangkat yang saya kuasai untuk menunjang hasil karya berstandar tinggi.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+            <div class="lg:col-span-7 bg-brand-card/90 backdrop-blur-md border border-brand-border p-8 rounded-3xl space-y-6 shadow-xl">
+                <h3 class="text-xl font-bold mb-6 text-brand-red flex items-center gap-2">
+                    <i class="fa-solid fa-laptop-code"></i> <span id="txt_skills_software_header">Software Mastery</span>
+                </h3>
+                <div id="softwareContainer" class="space-y-6">
                 </div>
             </div>
 
+            <div class="lg:col-span-5 bg-brand-card/90 backdrop-blur-md border border-brand-border p-8 rounded-3xl flex flex-col justify-between shadow-xl">
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-brand-red flex items-center gap-2">
+                        <i class="fa-solid fa-camera"></i> <span id="txt_skills_core_header">Core Competencies</span>
+                    </h3>
+                    <div id="coreContainer" class="flex flex-wrap gap-2.5">
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
+    </section>
+
+    <!-- GALERI PORTOFOLIO UTAMA -->
+    <section id="portofolio" class="py-28 px-6 sm:px-10 lg:px-12 w-full border-t border-brand-border/60 reveal-on-scroll">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <h2 id="txt_porto_title" class="text-3xl sm:text-4xl font-bold mb-4">Galeri Portofolio</h2>
+            <p id="txt_porto_subtitle" class="text-slate-400">Beberapa sorotan karya visual terbaik pilihan.</p>
+        </div>
+
+        <div id="portoContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 items-start w-full">
+        </div>
+
+        <div class="mt-16 text-center space-y-6">
+            <div>
+                <a href="galeri.html" class="inline-flex items-center gap-2 bg-brand-red hover:bg-red-600 text-white text-sm font-bold px-8 py-3.5 rounded-full transition shadow-lg shadow-brand-red/20">
+                    <i class="fa-solid fa-images"></i> <span id="txt_porto_all_btn">Lihat Semua Galeri Portofolio</span>
+                </a>
+            </div>
+
+            <p id="txt_porto_extra_text" class="text-slate-400 text-sm mb-4">Ingin melihat koleksi portofolio lengkap berdasarkan kategori?</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="https://bit.ly/weddingportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Wedding</a>
+                <a href="https://bit.ly/preweddingportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Prewedding</a>
+                <a href="https://bit.ly/modelportobagusinvisual" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Model Showcase</a>
+                <a href="https://bit.ly/49Wd8QP" target="_blank" class="bg-brand-card border border-brand-border hover:border-brand-red/50 text-xs px-4 py-2.5 rounded-xl transition font-semibold">Social Media</a>
+            </div>
+        </div>
+    </section>
 
     <!-- MODAL POPUP VIDEO -->
     <div id="videoModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/80 backdrop-blur-md">
         <div onclick="closeVideoModal()" class="absolute inset-0"></div>
 
-        <div class="relative w-full max-w-4xl bg-brand-card border border-brand-border rounded-3xl overflow-hidden shadow-2xl z-10 animate-modal">
+        <div class="relative w-full max-w-5xl bg-brand-card border border-brand-border rounded-3xl overflow-hidden shadow-2xl z-10 animate-modal">
             <div class="px-6 py-4 border-b border-brand-border flex justify-between items-center bg-brand-dark/50">
                 <h3 id="modalTitle" class="font-bold text-base sm:text-lg text-white">Video Preview</h3>
                 <button onclick="closeVideoModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-brand-red flex items-center justify-center transition">
@@ -124,38 +232,41 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer id="kontak" class="bg-brand-card border-t border-brand-border py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+    <!-- FOOTER / KONTAK -->
+    <footer id="kontak" class="bg-brand-card border-t border-brand-border py-12 px-6 sm:px-10 max-w-7xl mx-auto w-full reveal-on-scroll">
+        <div class="w-full flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="text-center md:text-left space-y-2">
-                <h3 id="txt_cta_title" class="text-xl font-bold text-white">Mari Kolaborasi Proyek Anda!</h3>
-                <p id="txt_cta_subtitle" class="text-slate-400 text-xs sm:text-sm">Terbuka untuk pekerjaan videografi, editing, maupun project jangka panjang.</p>
+                <h3 id="txt_cta_title" class="text-2xl font-bold text-white">Mari Kolaborasi Proyek Anda!</h3>
+                <p id="txt_cta_subtitle" class="text-slate-400 text-sm">Terbuka untuk pekerjaan videografi, editing, maupun project jangka panjang.</p>
             </div>
             
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://instagram.com/bagusinvisual" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Instagram">
-                    <i class="fa-brands fa-instagram"></i>
+                <a href="https://instagram.com/bagusinvisual" target="_blank" class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Instagram">
+                    <i class="fa-brands fa-instagram text-lg"></i>
                 </a>
-                <a id="footerWaLink" href="#" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="WhatsApp">
-                    <i class="fa-brands fa-whatsapp"></i>
+                <a id="footerWaLink" href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="WhatsApp">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
                 </a>
-                <a id="footerEmailLink" href="#" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Email">
-                    <i class="fa-solid fa-envelope"></i>
+                <a id="footerEmailLink" href="#" class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Email">
+                    <i class="fa-solid fa-envelope text-lg"></i>
                 </a>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-brand-border/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <div class="w-full mt-8 pt-6 border-t border-brand-border/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
             <p id="txt_footer_copyright">&copy; 2026 Bagus Wahyu Widodo (Bagusinvisual). All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- SCRIPT ENGINE GALERI -->
+    <!-- SCRIPT ENGINE -->
     <script>
-        let allPortoItems = [];
-        let activeCategory = 'All Projects';
+        let textToType = "";
+        let typingSpeedMs = 90;
+        let customScrollDuration = 1000;
+        let skillAnimDuration = 1000;
         let galleryAnimDuration = 350;
-
+        let allPortoItems = [];
+        
         function getYoutubeId(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = url.match(regExp);
@@ -179,11 +290,15 @@
                         document.documentElement.style.setProperty('--anim-duration', val);
                     } else if (key === 'animation_distance') {
                         document.documentElement.style.setProperty('--anim-distance', val);
+                    } else if (key === 'typing_speed') {
+                        typingSpeedMs = parseInt(val) || 90;
+                    } else if (key === 'scroll_duration') {
+                        customScrollDuration = parseInt(val) || 1000;
+                    } else if (key === 'skill_anim_duration') {
+                        skillAnimDuration = parseInt(val) || 1000;
                     } else if (key === 'gallery_anim_duration') {
                         galleryAnimDuration = parseInt(val) || 350;
                         document.documentElement.style.setProperty('--gallery-anim-dur', `${galleryAnimDuration}ms`);
-                    } else if (key === 'galeri_page_title') {
-                        document.title = val;
                     } else {
                         const el = document.getElementById(`txt_${key}`);
                         if (el) el.innerHTML = val;
@@ -206,16 +321,30 @@
                     const key = parts[0];
                     const val = parts[1];
 
-                    if (key === 'hp') {
+                    if (key === 'role') {
+                        document.getElementById('aboutRole').innerText = val;
+                    } else if (key === 'tagline') {
+                        textToType = val;
+                    } else if (key === 'bio') {
+                        document.getElementById('aboutBio').innerText = val;
+                    } else if (key === 'alamat') {
+                        document.getElementById('aboutAlamat').innerText = val;
+                    } else if (key === 'hp') {
                         const cleanHp = val.replace(/[^0-9]/g, '');
                         const waNumber = cleanHp.startsWith('0') ? '62' + cleanHp.slice(1) : cleanHp;
-                        const waEl = document.getElementById('footerWaLink');
-                        if (waEl) waEl.href = `https://wa.me/${waNumber}`;
+                        
+                        document.getElementById('aboutHpText').innerText = val;
+                        document.getElementById('aboutHpLink').href = `https://wa.me/${waNumber}`;
+                        document.getElementById('footerWaLink').href = `https://wa.me/${waNumber}`;
                     } else if (key === 'email') {
-                        const emailEl = document.getElementById('footerEmailLink');
-                        if (emailEl) emailEl.href = `mailto:${val}`;
+                        document.getElementById('aboutEmailText').innerText = val;
+                        document.getElementById('aboutEmailLink').href = `mailto:${val}`;
+                        document.getElementById('footerEmailLink').href = `mailto:${val}`;
                     }
                 });
+
+                if (textToType) typeEffect();
+
             } catch (error) {
                 console.error("Gagal memuat aboutme.txt", error);
             }
@@ -257,7 +386,7 @@
                         }
                     });
 
-                    if (itemData.url) {
+                    if (itemData.url && itemData.showInMain === 'yes') {
                         itemData.categoriesArray = itemData.category
                             .split(',')
                             .map(c => c.trim())
@@ -267,7 +396,6 @@
                     }
                 });
 
-                renderCategories();
                 renderPortoGrid();
 
             } catch (error) {
@@ -275,64 +403,24 @@
             }
         }
 
-        function renderCategories() {
-            const container = document.getElementById('categoryContainer');
-            
-            const categoriesSet = new Set(['All Projects']);
-            allPortoItems.forEach(item => {
-                item.categoriesArray.forEach(c => categoriesSet.add(c));
-            });
-
-            container.innerHTML = '';
-
-            categoriesSet.forEach(cat => {
-                const isActive = cat === activeCategory;
-                const activeClass = isActive 
-                    ? 'bg-brand-red text-white font-bold shadow-lg shadow-brand-red/20' 
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60 font-medium';
-
-                const btnHtml = `
-                    <button onclick="filterCategory('${cat.replace(/'/g, "\\'")}')" 
-                            class="w-full text-left px-4 py-3 rounded-2xl text-sm transition-all flex items-center justify-between ${activeClass}">
-                        <span>${cat}</span>
-                        ${isActive ? '<i class="fa-solid fa-chevron-right text-xs"></i>' : ''}
-                    </button>
-                `;
-                container.innerHTML += btnHtml;
-            });
-        }
-
-        function filterCategory(catName) {
-            activeCategory = catName;
-            renderCategories();
-            renderPortoGrid();
-        }
-
         function renderPortoGrid() {
             const container = document.getElementById('portoContainer');
             container.innerHTML = '';
 
-            const filteredItems = allPortoItems.filter(item => {
-                if (activeCategory === 'All Projects') return true;
-                return item.categoriesArray.includes(activeCategory);
-            });
-
-            if (filteredItems.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-16 text-center text-slate-500 animate-modal">Tidak ada portofolio untuk kategori ini.</div>`;
+            if (allPortoItems.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 animate-modal">Tidak ada karya yang dipajang di beranda.</div>`;
                 return;
             }
 
-            filteredItems.forEach((itemData, index) => {
+            allPortoItems.forEach((itemData, index) => {
                 const videoId = getYoutubeId(itemData.url);
                 if (!videoId) return;
 
                 const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                 const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-                // PERBAIKAN PENTING: Gunakan aspect-ratio dari Tailwind, BUKAN height fixed (h-64/h-96/h-72)
-                let aspectClass = 'aspect-video'; // Default 16:9 Landscape
+                let aspectClass = 'aspect-video';
                 const typeLower = itemData.type.toLowerCase();
-                
                 if (typeLower === 'portrait' || typeLower === 'reels' || typeLower === 'story') {
                     aspectClass = 'aspect-[9/16]';
                 } else if (typeLower === 'square') {
@@ -343,14 +431,13 @@
                     `<span class="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full uppercase tracking-wider border border-white/10">${cat}</span>`
                 ).join(' ');
 
-                const staggerDelay = index * 40;
+                const staggerDelay = index * 50;
 
                 const cardHtml = `
                     <div onclick="openVideoModal('${itemData.title.replace(/'/g, "\\'")}', '${embedUrl}')" 
                          style="animation-delay: ${staggerDelay}ms"
-                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card hover:border-brand-red/50 transition duration-300 opacity-0 animate-modal flex flex-col">
+                         class="group relative rounded-3xl overflow-hidden cursor-pointer border border-brand-border bg-brand-card/90 hover:border-brand-red/50 hover:shadow-2xl hover:shadow-brand-red/10 transition duration-300 opacity-0 animate-modal flex flex-col">
                         
-                        <!-- Box Wrapper Thumbnail yang Mengikuti Aspek Rasio -->
                         <div class="relative w-full overflow-hidden ${aspectClass} bg-black/40">
                             <img src="${imgUrl}" 
                                  onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';" 
@@ -365,11 +452,11 @@
 
                         <div class="p-6 space-y-2 relative z-10 bg-brand-card flex-grow flex flex-col justify-between">
                             <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-brand-red transition">${itemData.title}</h4>
+                                <h4 class="text-base font-bold text-white group-hover:text-brand-red transition leading-snug">${itemData.title}</h4>
                                 ${itemData.description ? `<p class="text-xs text-slate-400 line-clamp-2 leading-relaxed mt-1">${itemData.description}</p>` : ''}
                             </div>
                             
-                            <div class="pt-3 flex items-center gap-2 text-xs text-brand-red font-semibold">
+                            <div class="pt-2 flex items-center gap-2 text-xs text-brand-red font-semibold">
                                 <i class="fa-solid fa-circle-play text-sm"></i> <span>Putar Video</span>
                             </div>
                         </div>
@@ -377,6 +464,147 @@
                 `;
                 container.innerHTML += cardHtml;
             });
+        }
+
+        async function loadRiwayat() {
+            try {
+                const response = await fetch('riwayat.txt');
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                const container = document.getElementById('riwayatContainer');
+                container.innerHTML = '';
+
+                lines.forEach((line, index) => {
+                    if(!line.trim() || line.trim().startsWith('#')) return;
+                    const [year, title, company, desc] = line.split('|').map(s => s.trim());
+                    const isFirst = index === 0;
+
+                    const item = `
+                        <div class="relative group reveal-on-scroll">
+                            <div class="absolute -left-[41px] sm:-left-[49px] top-1.5 w-5 h-5 rounded-full ${isFirst ? 'bg-brand-red' : 'bg-slate-700 group-hover:bg-brand-red'} ring-8 ring-brand-dark transition"></div>
+                            <div class="bg-brand-card/90 backdrop-blur-md border border-brand-border p-6 sm:p-8 rounded-2xl hover:border-brand-red/40 transition">
+                                <span class="text-xs font-extrabold ${isFirst ? 'text-brand-red' : 'text-slate-400 group-hover:text-brand-red'} uppercase tracking-wider transition">${year}</span>
+                                <h3 class="text-xl font-bold text-white mt-1">${title}</h3>
+                                <p class="text-slate-400 text-sm font-medium mb-4">${company}</p>
+                                <p class="text-slate-300 text-sm leading-relaxed">${desc}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += item;
+                });
+            } catch (error) {
+                console.error("Gagal memuat riwayat.txt", error);
+            }
+        }
+
+        async function loadSkill() {
+            try {
+                const response = await fetch('skill.txt');
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                const softwareContainer = document.getElementById('softwareContainer');
+                const coreContainer = document.getElementById('coreContainer');
+                
+                softwareContainer.innerHTML = '';
+                coreContainer.innerHTML = '';
+
+                lines.forEach(line => {
+                    if(!line.trim() || line.trim().startsWith('#')) return;
+                    const parts = line.split('|').map(s => s.trim());
+                    
+                    if (parts[0] === 'software') {
+                        const [_, name, percent] = parts;
+                        const numericPercent = parseInt(percent) || 0;
+
+                        const item = `
+                            <div class="space-y-2 skill-bar-item">
+                                <div class="flex justify-between text-sm font-semibold">
+                                    <span>${name}</span>
+                                    <span class="text-brand-red skill-percent-text" data-target="${numericPercent}">0%</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-red to-rose-500 h-full skill-progress-fill transition-all ease-out" 
+                                         style="width: 0%; transition-duration: ${skillAnimDuration}ms;" 
+                                         data-target="${numericPercent}%"></div>
+                                </div>
+                            </div>
+                        `;
+                        softwareContainer.innerHTML += item;
+                    } else if (parts[0] === 'core') {
+                        const [_, name] = parts;
+                        const item = `<span class="bg-slate-800/80 border border-slate-700 text-slate-200 text-xs font-semibold px-4 py-2 rounded-xl">${name}</span>`;
+                        coreContainer.innerHTML += item;
+                    }
+                });
+
+                initSkillAnimationObserver();
+
+            } catch (error) {
+                console.error("Gagal memuat skill.txt", error);
+            }
+        }
+
+        function initSkillAnimationObserver() {
+            const section = document.getElementById('keahlian');
+            if (!section) return;
+
+            let animated = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animated) {
+                        animated = true;
+                        
+                        const fills = section.querySelectorAll('.skill-progress-fill');
+                        fills.forEach(fill => {
+                            const targetWidth = fill.getAttribute('data-target');
+                            setTimeout(() => {
+                                fill.style.width = targetWidth;
+                            }, 50);
+                        });
+
+                        const percentTexts = section.querySelectorAll('.skill-percent-text');
+                        percentTexts.forEach(textEl => {
+                            const target = parseInt(textEl.getAttribute('data-target')) || 0;
+                            let current = 0;
+                            const stepTime = Math.max(Math.floor(skillAnimDuration / target), 12);
+
+                            const timer = setInterval(() => {
+                                current += 1;
+                                textEl.innerText = `${current}%`;
+                                if (current >= target) {
+                                    textEl.innerText = `${target}%`;
+                                    clearInterval(timer);
+                                }
+                            }, stepTime);
+                        });
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            observer.observe(section);
+        }
+
+        const typedTextElement = document.getElementById("typedText");
+        let index = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const currentText = textToType.substring(0, index);
+            typedTextElement.innerText = currentText;
+
+            if (!isDeleting && index < textToType.length) {
+                index++;
+                setTimeout(typeEffect, typingSpeedMs);
+            } else if (isDeleting && index > 0) {
+                index--;
+                setTimeout(typeEffect, 40);
+            } else {
+                isDeleting = !isDeleting;
+                setTimeout(typeEffect, isDeleting ? 2000 : 500);
+            }
         }
 
         function openVideoModal(title, videoUrl) {
@@ -404,12 +632,74 @@
             if (e.key === "Escape") closeVideoModal();
         });
 
+        function initScrollObserver() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const elementsToAnimate = document.querySelectorAll('.reveal-on-scroll');
+            elementsToAnimate.forEach(el => observer.observe(el));
+        }
+
+        function initSmoothNavigation() {
+            const navLinks = document.querySelectorAll('a.nav-link[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (!targetElement) return;
+
+                    const navbarHeight = 80;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    const startPosition = window.pageYOffset;
+                    const distance = targetPosition - startPosition;
+                    let startTime = null;
+
+                    function easeInOutCubic(t, b, c, d) {
+                        t /= d / 2;
+                        if (t < 1) return c / 2 * t * t * t + b;
+                        t -= 2;
+                        return c / 2 * (t * t * t + 2) + b;
+                    }
+
+                    function animation(currentTime) {
+                        if (startTime === null) startTime = currentTime;
+                        const timeElapsed = currentTime - startTime;
+                        const run = easeInOutCubic(timeElapsed, startPosition, distance, customScrollDuration);
+                        window.scrollTo(0, run);
+                        if (timeElapsed < customScrollDuration) requestAnimationFrame(animation);
+                    }
+
+                    requestAnimationFrame(animation);
+                });
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
             await Promise.all([
                 loadSettings(),
                 loadAboutMe(),
-                loadPorto()
+                loadPorto(),
+                loadRiwayat(),
+                loadSkill()
             ]);
+
+            initScrollObserver();
+            initSmoothNavigation();
         });
     </script>
 </body>
