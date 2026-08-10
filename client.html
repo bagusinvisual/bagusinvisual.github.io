@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Private Gallery — BAGUSINVISUAL</title>
+    <title id="pageTitle">Gallery — BAGUSINVISUAL</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -253,6 +253,7 @@
             }
         }
 
+        // PARSER SANGAT FIX: Aman dari baris kosong & key tanpa nilai
         function parseBlockText(blockContent, defaultObject) {
             const result = { ...defaultObject };
             const lines = blockContent.split('\n');
@@ -291,7 +292,7 @@
 
                     if (key in result) {
                         currentKey = key;
-                        result[key] = val;
+                        result[key] = val; // langsung assign val (biar tidak membocorkan baris berikutnya kalau val kosong)
                     }
                 }
             });
@@ -354,7 +355,7 @@
         }
 
         function renderClientInfo(meta) {
-            document.title = `${meta.name} — Galeri Portofolio Client`;
+            document.title = `${meta.name} — Client Galeri`;
             document.getElementById('clientName').innerText = meta.name;
             document.getElementById('clientCategory').innerText = meta.category;
             document.getElementById('clientDate').innerHTML = `<i class="fa-regular fa-calendar me-1"></i> ${meta.date || '-'}`;
