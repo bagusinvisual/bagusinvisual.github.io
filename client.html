@@ -72,7 +72,7 @@
     <!-- NAVBAR HEADER -->
     <header class="fixed top-0 w-full bg-brand-dark/80 backdrop-blur-xl z-40 border-b border-brand-border/60">
         <div class="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-extrabold tracking-wider">
+            <a href="#" class="text-xl font-extrabold tracking-wider">
                 BAGUS<span class="text-brand-red">INVISUAL</span>
             </a>
 
@@ -173,7 +173,8 @@
     <footer class="w-full bg-brand-card border-t border-brand-border py-12 px-6 sm:px-10 mt-auto">
         <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="text-center md:text-left space-y-2">
-                <h3 class="text-xl font-bold text-white">Dokumentasi & Visual oleh Bagusinvisual</h3>
+                <!-- DIBERI ID DENGAN TEXT DEFAULT -->
+                <h3 id="footerVendorTitle" class="text-xl font-bold text-white">Dokumentasi & Visual oleh Bagusinvisual</h3>
                 <p class="text-slate-400 text-xs sm:text-sm">Terima kasih telah memercayakan momen berharga Anda bersama kami.</p>
             </div>
             
@@ -253,7 +254,6 @@
             }
         }
 
-        // PARSER SANGAT FIX: Aman dari baris kosong & key tanpa nilai
         function parseBlockText(blockContent, defaultObject) {
             const result = { ...defaultObject };
             const lines = blockContent.split('\n');
@@ -292,7 +292,7 @@
 
                     if (key in result) {
                         currentKey = key;
-                        result[key] = val; // langsung assign val (biar tidak membocorkan baris berikutnya kalau val kosong)
+                        result[key] = val;
                     }
                 }
             });
@@ -361,7 +361,13 @@
             document.getElementById('clientDate').innerHTML = `<i class="fa-regular fa-calendar me-1"></i> ${meta.date || '-'}`;
             document.getElementById('clientDesc').innerHTML = meta.desc;
 
-            // Vendor Tag
+            // VENDOR NAME & FOOTER TITLE DYNAMIC LOGIC
+            const vendorDisplayName = meta.vendor_name ? meta.vendor_name : 'Bagusinvisual';
+            const footerTitleEl = document.getElementById('footerVendorTitle');
+            if (footerTitleEl) {
+                footerTitleEl.innerText = `Dokumentasi & Visual oleh ${vendorDisplayName}`;
+            }
+
             if (meta.vendor_ig || meta.vendor_name) {
                 const vendorEl = document.getElementById('vendorTag');
                 document.getElementById('vendorNameText').innerText = meta.vendor_name || 'Instagram Vendor';
@@ -369,14 +375,12 @@
                 vendorEl.classList.remove('hidden');
             }
 
-            // Client IG Tag
             if (meta.client_ig) {
                 const clientIgEl = document.getElementById('clientIgTag');
                 clientIgEl.href = meta.client_ig;
                 clientIgEl.classList.remove('hidden');
             }
 
-            // Drive Button
             if (meta.drive) {
                 const driveBtn = document.getElementById('driveBtn');
                 driveBtn.href = meta.drive;
