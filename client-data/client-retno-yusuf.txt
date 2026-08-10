@@ -13,12 +13,12 @@ A Work for amreeshaphotography
 --------------------------
 ---
 title: Wedding Teaser
-desc:isi 
+desc: 
 type: landscape
 url: https://www.youtube.com/watch?v=I-EQ-LQf_TI
 ---
 title: Wedding Reels/Story
-desc: 
+desc:
 type: portrait
 url: https://www.youtube.com/watch?v=g50tndGwIvU
 ---
