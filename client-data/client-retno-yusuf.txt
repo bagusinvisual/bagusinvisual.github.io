@@ -1,24 +1,27 @@
------HEADLINE-----
+---
 name: Retno & Yusuf
 category: Wedding Video
 date: 2 Agustus 2026
 drive: https://drive.google.com/drive/u/0/folders/1brdSUnC8TWeHJ_hHJkPZJ4TYRCsuKSnF
+client_ig: 
+vendor_name: Amreesha Photography
+vendor_ig: https://instagram.com/amreeshaphotography
 desc:
 ///
-A Work for amreeshaphotography
+A Work for Amreesha Photography
 ///
 
 ---
 
 title: Wedding Teaser
-desc:
+desc: 
 type: landscape
 url: https://www.youtube.com/watch?v=I-EQ-LQf_TI
 
 ---
 
-title: Wedding Reels/Story
-desc:
+title: Wedding Reels / Story
+desc: 
 type: portrait
 url: https://www.youtube.com/watch?v=g50tndGwIvU
 
