@@ -120,6 +120,17 @@
                 <h1 id="clientName" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">-</h1>
                 <div id="clientDesc" class="text-slate-400 text-base sm:text-lg max-w-3xl leading-relaxed space-y-2">-</div>
 
+                <!-- VENDOR & CLIENT SOCIAL LINKS -->
+                <div id="socialTagsContainer" class="flex flex-wrap gap-3 pt-2">
+                    <a id="vendorTag" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs px-4 py-2 rounded-xl transition">
+                        <i class="fa-brands fa-instagram text-brand-red"></i> Vendor: <span id="vendorNameText" class="font-semibold text-white"></span>
+                    </a>
+                    <a id="clientIgTag" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs px-4 py-2 rounded-xl transition">
+                        <i class="fa-brands fa-instagram text-brand-red"></i> Client Profile
+                    </a>
+                </div>
+
+                <!-- DRIVE DOWNLOAD BUTTON -->
                 <div id="driveContainer" class="pt-2 hidden">
                     <a id="driveBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-brand-red border border-slate-700 hover:border-brand-red text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition">
                         <i class="fa-solid fa-cloud-arrow-down text-brand-red"></i> Download Master Files (Google Drive)
@@ -134,14 +145,14 @@
                 </h3>
                 
                 <div id="portoContainer" class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-                    <!-- Media Items (Video & Photo) Injected Here -->
+                    <!-- Media Items Injected Here -->
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- MODAL POPUP (VIDEO & FOTO) -->
+    <!-- MODAL POPUP -->
     <div id="mediaModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/80 backdrop-blur-md">
         <div onclick="closeMediaModal()" class="absolute inset-0"></div>
 
@@ -154,7 +165,6 @@
             </div>
             
             <div id="modalBody" class="relative w-full bg-black min-h-[300px] flex items-center justify-center">
-                <!-- Dynamic Video / Photo Injected Here -->
             </div>
         </div>
     </div>
@@ -243,7 +253,6 @@
             }
         }
 
-        // PARSER TEKS TERBARU (PENANGANAN MULTILINE & DESC KOSONG SECARA PRESI)
         function parseBlockText(blockContent, defaultObject) {
             const result = { ...defaultObject };
             const lines = blockContent.split('\n');
@@ -309,7 +318,16 @@
                 const text = await response.text();
                 const rawBlocks = text.split(/^---$/m);
 
-                let clientMeta = { name: 'Client Project', category: 'General Project', date: '', desc: '', drive: '' };
+                let clientMeta = { 
+                    name: 'Client Project', 
+                    category: 'General Project', 
+                    date: '', 
+                    desc: '', 
+                    drive: '',
+                    vendor_name: '',
+                    vendor_ig: '',
+                    client_ig: ''
+                };
                 let mediaItems = [];
 
                 rawBlocks.forEach((block) => {
@@ -342,6 +360,22 @@
             document.getElementById('clientDate').innerHTML = `<i class="fa-regular fa-calendar me-1"></i> ${meta.date || '-'}`;
             document.getElementById('clientDesc').innerHTML = meta.desc;
 
+            // Vendor Tag
+            if (meta.vendor_ig || meta.vendor_name) {
+                const vendorEl = document.getElementById('vendorTag');
+                document.getElementById('vendorNameText').innerText = meta.vendor_name || 'Instagram Vendor';
+                if (meta.vendor_ig) vendorEl.href = meta.vendor_ig;
+                vendorEl.classList.remove('hidden');
+            }
+
+            // Client IG Tag
+            if (meta.client_ig) {
+                const clientIgEl = document.getElementById('clientIgTag');
+                clientIgEl.href = meta.client_ig;
+                clientIgEl.classList.remove('hidden');
+            }
+
+            // Drive Button
             if (meta.drive) {
                 const driveBtn = document.getElementById('driveBtn');
                 driveBtn.href = meta.drive;
@@ -362,7 +396,6 @@
                 const typeLower = (item.type || '').toLowerCase();
 
                 if (typeLower === 'photo' || typeLower === 'foto' || item.drive_id) {
-                    // Item Foto Google Drive
                     const driveId = getDriveFileId(item.drive_id || item.url);
                     if (!driveId) return;
 
@@ -395,14 +428,12 @@
                     container.innerHTML += cardHtml;
 
                 } else {
-                    // Item Video YouTube
                     const videoId = getYoutubeId(item.url);
                     if (!videoId) return;
 
                     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-                    // PENGATURAN ASPECT RATIO (16:9 vs 9:16)
                     let aspectClass = 'aspect-video';
                     if (typeLower === 'portrait' || typeLower === 'reels' || typeLower === 'story') {
                         aspectClass = 'aspect-[9/16]';
