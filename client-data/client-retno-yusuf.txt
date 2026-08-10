@@ -8,17 +8,18 @@ desc:
 A Work for amreeshaphotography
 ///
 
------MEDIA ISI DISINI-----
--   VIDEO DIBAWAH SINI   -
---------------------------
 ---
+
 title: Wedding Teaser
-desc: 
+desc:
 type: landscape
 url: https://www.youtube.com/watch?v=I-EQ-LQf_TI
+
 ---
+
 title: Wedding Reels/Story
 desc:
 type: portrait
 url: https://www.youtube.com/watch?v=g50tndGwIvU
+
 ---
