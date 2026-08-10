@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Gallery — BAGUSINVISUAL</title>
+    <title id="pageTitle">Private Gallery — BAGUSINVISUAL</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -243,6 +243,53 @@
             }
         }
 
+        // PARSER TEKS TERBARU (PENANGANAN MULTILINE & DESC KOSONG SECARA PRESI)
+        function parseBlockText(blockContent, defaultObject) {
+            const result = { ...defaultObject };
+            const lines = blockContent.split('\n');
+            let currentKey = null;
+            let isMultiLine = false;
+            let multiLineValue = [];
+
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                
+                if (trimmed === '///') {
+                    if (isMultiLine) {
+                        if (currentKey) {
+                            result[currentKey] = multiLineValue.join('<br>').trim();
+                        }
+                        isMultiLine = false;
+                        currentKey = null;
+                        multiLineValue = [];
+                    } else {
+                        isMultiLine = true;
+                    }
+                    return;
+                }
+
+                if (isMultiLine) {
+                    multiLineValue.push(trimmed);
+                    return;
+                }
+
+                if (!trimmed || trimmed.startsWith('#')) return;
+
+                const colonIndex = trimmed.indexOf(':');
+                if (colonIndex !== -1) {
+                    const key = trimmed.slice(0, colonIndex).trim().toLowerCase();
+                    const val = trimmed.slice(colonIndex + 1).trim();
+
+                    if (key in result) {
+                        currentKey = key;
+                        result[key] = val;
+                    }
+                }
+            });
+
+            return result;
+        }
+
         async function loadClientData() {
             const urlParams = new URLSearchParams(window.location.search);
             const clientId = urlParams.get('id');
@@ -264,22 +311,6 @@
 
                 let clientMeta = { name: 'Client Project', category: 'General Project', date: '', desc: '', drive: '' };
                 let mediaItems = [];
-
-                function parseBlockText(blockContent, defaultObject) {
-                    const result = { ...defaultObject };
-                    const regex = /([a-zA-Z0-9_-]+):\s*(?:\/\/\/\s*\n([\s\S]*?)\n\/\/\/|([^\n]*))/g;
-                    let match;
-
-                    while ((match = regex.exec(blockContent)) !== null) {
-                        const key = match[1].toLowerCase().trim();
-                        let value = match[2] !== undefined ? match[2] : (match[3] !== undefined ? match[3] : '');
-
-                        if (key in result) {
-                            result[key] = value.trim().replace(/\r?\n/g, '<br>');
-                        }
-                    }
-                    return result;
-                }
 
                 rawBlocks.forEach((block) => {
                     const trimmedBlock = block.trim();
@@ -328,7 +359,7 @@
             }
 
             items.forEach((item) => {
-                const typeLower = item.type.toLowerCase();
+                const typeLower = (item.type || '').toLowerCase();
 
                 if (typeLower === 'photo' || typeLower === 'foto' || item.drive_id) {
                     // Item Foto Google Drive
@@ -371,6 +402,7 @@
                     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     const imgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
+                    // PENGATURAN ASPECT RATIO (16:9 vs 9:16)
                     let aspectClass = 'aspect-video';
                     if (typeLower === 'portrait' || typeLower === 'reels' || typeLower === 'story') {
                         aspectClass = 'aspect-[9/16]';
@@ -418,15 +450,11 @@
 
             modalTitle.innerText = title;
             
-            // Parameter rahasia YouTube + Overlay untuk menyamarkan uploader & menyembunyikan link YouTube
             const cleanEmbedUrl = `${videoUrl}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
 
             modalBody.innerHTML = `
                 <div class="relative aspect-video w-full overflow-hidden bg-black rounded-b-2xl">
-                    <!-- Overlay Transparan Atas (Mencegah Klik Judul & Logo YouTube) -->
                     <div class="absolute top-0 left-0 right-0 h-16 z-20 pointer-events-auto bg-transparent"></div>
-                    
-                    <!-- Video Player -->
                     <iframe class="w-full h-full relative z-10" 
                             src="${cleanEmbedUrl}" 
                             title="${title}" 
