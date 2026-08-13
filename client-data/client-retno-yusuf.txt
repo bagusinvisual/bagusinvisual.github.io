@@ -24,3 +24,8 @@ desc:
 type: portrait
 url: https://www.youtube.com/watch?v=g50tndGwIvU
 ---
+
+-----VENDOR CONTACT ISI DISINI-----
+vendor_ig: https://instagram.com/amreeshaphotography
+vendor_nomor: 
+vendor_email: 
