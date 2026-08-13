@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -48,14 +50,16 @@
             background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 99;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Trik khusus agar iframe YouTube bersikap seperti 'object-fit: cover' mentok 100vw */
+        .video-background-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw; /* 16:9 ratio dari 100vw */
+            min-height: 100%;
+            min-width: 177.77vh; /* 16:9 ratio dari 100vh */
+            transform: translate(-50%, -50%);
         }
 
         @keyframes modalFadeIn {
@@ -67,7 +71,7 @@
         }
     </style>
 </head>
-<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white bg-pro-cinematic min-h-screen flex flex-col justify-between">
+<body style="background-color: #0A0A0C; color: #f1f5f9;" class="bg-brand-dark text-slate-100 antialiased font-sans selection:bg-brand-red selection:text-white bg-pro-cinematic min-h-screen flex flex-col justify-between overflow-x-hidden">
 
     <!-- NAVBAR HEADER -->
     <header class="fixed top-0 w-full bg-brand-dark/80 backdrop-blur-xl z-40 border-b border-brand-border/60">
@@ -94,8 +98,68 @@
         </div>
     </header>
 
-    <!-- CONTENT WRAPPER -->
-    <main class="pt-32 pb-20 px-6 sm:px-10 max-w-6xl mx-auto w-full flex-grow">
+    <!-- FULL-BLEED REAL 100VW HERO BANNER -->
+    <div id="heroSection" class="relative w-screen left-1/2 right-1/2 -mx-[50vw] pt-20 hidden border-b border-brand-border/80 overflow-hidden">
+        <div id="bannerCard" class="relative w-full min-h-[420px] sm:min-h-[480px] flex items-center justify-center overflow-hidden bg-brand-dark py-12">
+            
+            <!-- FULL COVER BACKGROUND VIDEO (OPACITY 0.6) -->
+            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-60 z-0">
+                <div id="bannerVideoContainer" class="video-background-wrapper">
+                    <div id="bannerBg" class="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700"></div>
+                </div>
+            </div>
+            
+            <!-- GRADIENT OVERLAY -->
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/30 to-brand-dark/50 z-0 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-black/20 z-0 pointer-events-none"></div>
+
+            <!-- CONTAINER CONTENT CENTERED -->
+            <div class="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10">
+                <div class="bg-brand-card/85 backdrop-blur-xl border border-brand-border/80 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col md:flex-row md:items-center gap-6 sm:gap-8">
+                    
+                    <div class="flex-shrink-0">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-brand-dark/90 border-2 border-brand-red/60 flex items-center justify-center text-brand-red text-3xl sm:text-4xl shadow-2xl">
+                            <i class="fa-solid fa-clapperboard"></i>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 flex-grow">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <span id="clientCategory" class="text-[11px] font-bold uppercase tracking-wider text-brand-red bg-brand-red/20 backdrop-blur-md border border-brand-red/40 px-3 py-1 rounded-full">Project Gallery</span>
+                            <span class="text-slate-500">•</span>
+                            <span id="clientDate" class="text-xs text-slate-300 font-medium"><i class="fa-regular fa-calendar me-1"></i> -</span>
+                            <span class="text-slate-500">•</span>
+                            <span class="text-xs text-emerald-400 bg-emerald-950/60 backdrop-blur-md border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-circle-check text-[10px]"></i> Client Verified
+                            </span>
+                        </div>
+
+                        <h1 id="clientName" class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">-</h1>
+                        
+                        <div id="clientDesc" class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed font-light drop-shadow">-</div>
+
+                        <div class="pt-2 flex flex-wrap items-center gap-3">
+                            <a id="vendorTag" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-brand-dark/90 hover:bg-slate-800 backdrop-blur-md border border-slate-700/80 hover:border-slate-500 text-slate-200 text-xs px-3.5 py-2 rounded-xl transition">
+                                <i class="fa-brands fa-instagram text-brand-red"></i> Vendor: <span id="vendorNameText" class="font-semibold text-white"></span>
+                            </a>
+                            <a id="clientIgTag" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-brand-dark/90 hover:bg-slate-800 backdrop-blur-md border border-slate-700/80 hover:border-slate-500 text-slate-200 text-xs px-3.5 py-2 rounded-xl transition">
+                                <i class="fa-brands fa-instagram text-brand-red"></i> Profile Client
+                            </a>
+                            <div id="driveContainer" class="hidden">
+                                <a id="driveBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-brand-red hover:bg-red-600 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition shadow-lg shadow-brand-red/20">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i> Download Master (Google Drive)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT (GALLERY GRID) -->
+    <main class="py-12 px-6 sm:px-10 max-w-6xl mx-auto w-full flex-grow">
         
         <div id="errorContainer" class="hidden text-center py-20 space-y-4">
             <i class="fa-solid fa-folder-open text-5xl text-brand-red"></i>
@@ -106,46 +170,18 @@
             </a>
         </div>
 
-        <div id="mainContent" class="space-y-12 hidden">
-            
-            <!-- CLIENT HEADER HERO -->
-            <div class="bg-brand-card/90 backdrop-blur-md border border-brand-border p-8 sm:p-10 rounded-3xl space-y-4 relative overflow-hidden shadow-2xl">
-                <div class="absolute -top-12 -right-12 w-48 h-48 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
-                
-                <div class="flex flex-wrap items-center gap-3">
-                    <span id="clientCategory" class="text-xs font-bold uppercase tracking-wider text-brand-red bg-brand-red/10 border border-brand-red/30 px-3 py-1 rounded-full">Project Gallery</span>
-                    <span id="clientDate" class="text-xs text-slate-400"><i class="fa-regular fa-calendar me-1"></i> -</span>
-                </div>
-
-                <h1 id="clientName" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">-</h1>
-                <div id="clientDesc" class="text-slate-400 text-base sm:text-lg max-w-3xl leading-relaxed space-y-2">-</div>
-
-                <!-- VENDOR & CLIENT SOCIAL LINKS -->
-                <div id="socialTagsContainer" class="flex flex-wrap gap-3 pt-2">
-                    <a id="vendorTag" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs px-4 py-2 rounded-xl transition">
-                        <i class="fa-brands fa-instagram text-brand-red"></i> Vendor: <span id="vendorNameText" class="font-semibold text-white"></span>
-                    </a>
-                    <a id="clientIgTag" href="#" target="_blank" class="hidden inline-flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs px-4 py-2 rounded-xl transition">
-                        <i class="fa-brands fa-instagram text-brand-red"></i> Client Profile
-                    </a>
-                </div>
-
-                <!-- DRIVE DOWNLOAD BUTTON -->
-                <div id="driveContainer" class="pt-2 hidden">
-                    <a id="driveBtn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-brand-red border border-slate-700 hover:border-brand-red text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition">
-                        <i class="fa-solid fa-cloud-arrow-down text-brand-red"></i> Download Master Files (Google Drive)
-                    </a>
-                </div>
-            </div>
-
-            <!-- GALLERY GRID -->
+        <div id="mainContent" class="space-y-8 hidden">
             <div class="space-y-6">
-                <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-photo-film text-brand-red"></i> Koleksi Media
-                </h3>
+                <div class="flex items-center justify-between border-b border-brand-border/60 pb-4">
+                    <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-photo-film text-brand-red"></i> Koleksi Media
+                    </h3>
+                    <span id="mediaCounter" class="text-xs font-semibold text-slate-400 bg-brand-card border border-brand-border px-3 py-1 rounded-full">
+                        0 Media
+                    </span>
+                </div>
                 
                 <div id="portoContainer" class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-                    <!-- Media Items Injected Here -->
                 </div>
             </div>
 
@@ -173,19 +209,18 @@
     <footer class="w-full bg-brand-card border-t border-brand-border py-12 px-6 sm:px-10 mt-auto">
         <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="text-center md:text-left space-y-2">
-                <!-- DIBERI ID DENGAN TEXT DEFAULT -->
                 <h3 id="footerVendorTitle" class="text-xl font-bold text-white">Dokumentasi & Visual oleh Bagusinvisual</h3>
                 <p class="text-slate-400 text-xs sm:text-sm">Terima kasih telah memercayakan momen berharga Anda bersama kami.</p>
             </div>
             
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://instagram.com/bagusinvisual" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Instagram">
+            <div id="footerVendorContacts" class="flex flex-wrap justify-center gap-4">
+                <a id="footerVendorIg" href="#" target="_blank" class="hidden w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Instagram Vendor">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
-                <a id="footerWaLink" href="#" target="_blank" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="WhatsApp">
+                <a id="footerVendorWa" href="#" target="_blank" class="hidden w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="WhatsApp Vendor">
                     <i class="fa-brands fa-whatsapp"></i>
                 </a>
-                <a id="footerEmailLink" href="#" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Email">
+                <a id="footerVendorEmail" href="#" class="hidden w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:bg-brand-red hover:text-white hover:border-brand-red transition" title="Email Vendor">
                     <i class="fa-solid fa-envelope"></i>
                 </a>
             </div>
@@ -198,6 +233,53 @@
 
     <!-- SCRIPT ENGINE -->
     <script>
+        let bgPlayer = null;
+        let isYtApiReady = false;
+        let pendingBgVideoId = null;
+
+        function onYouTubeIframeAPIReady() {
+            isYtApiReady = true;
+            if (pendingBgVideoId) {
+                initBgPlayer(pendingBgVideoId);
+            }
+        }
+
+        function initBgPlayer(videoId) {
+            if (!isYtApiReady) {
+                pendingBgVideoId = videoId;
+                return;
+            }
+
+            const videoContainer = document.getElementById('bannerVideoContainer');
+            videoContainer.innerHTML = '<div id="ytBgIframe"></div>';
+
+            bgPlayer = new YT.Player('ytBgIframe', {
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    mute: 1,
+                    loop: 1,
+                    playlist: videoId,
+                    playsinline: 1,
+                    showinfo: 0,
+                    rel: 0,
+                    modestbranding: 1
+                },
+                events: {
+                    onReady: (e) => {
+                        e.target.mute();
+                        e.target.playVideo();
+                    }
+                }
+            });
+
+            const iframe = document.getElementById('ytBgIframe');
+            if (iframe) {
+                iframe.className = "w-full h-full pointer-events-none";
+            }
+        }
+
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         if (mobileMenuBtn && mobileMenu) {
@@ -237,16 +319,11 @@
                         const waNumber = cleanHp.startsWith('0') ? '62' + cleanHp.slice(1) : cleanHp;
                         const waUrl = `https://wa.me/${waNumber}`;
                         
-                        const footerWa = document.getElementById('footerWaLink');
                         const headerWa = document.getElementById('headerWaBtn');
                         const mobileWa = document.getElementById('mobileWaBtn');
 
-                        if (footerWa) footerWa.href = waUrl;
                         if (headerWa) headerWa.href = waUrl;
                         if (mobileWa) mobileWa.href = waUrl;
-                    } else if (key === 'email') {
-                        const emailEl = document.getElementById('footerEmailLink');
-                        if (emailEl) emailEl.href = `mailto:${val}`;
                     }
                 });
             } catch (error) {
@@ -327,7 +404,9 @@
                     drive: '',
                     vendor_name: '',
                     vendor_ig: '',
-                    client_ig: ''
+                    client_ig: '',
+                    vendor_nomor: '',
+                    vendor_email: ''
                 };
                 let mediaItems = [];
 
@@ -335,7 +414,7 @@
                     const trimmedBlock = block.trim();
                     if (!trimmedBlock) return;
 
-                    if (trimmedBlock.toLowerCase().includes('name:') || trimmedBlock.toLowerCase().includes('category:')) {
+                    if (trimmedBlock.toLowerCase().includes('name:') || trimmedBlock.toLowerCase().includes('category:') || trimmedBlock.toLowerCase().includes('vendor_nomor:')) {
                         clientMeta = parseBlockText(trimmedBlock, clientMeta);
                     } else if (trimmedBlock.toLowerCase().includes('url:') || trimmedBlock.toLowerCase().includes('drive_id:')) {
                         const itemData = parseBlockText(trimmedBlock, { title: '', desc: '', type: 'landscape', url: '', drive_id: '' });
@@ -343,9 +422,10 @@
                     }
                 });
 
-                renderClientInfo(clientMeta);
+                renderClientInfo(clientMeta, mediaItems);
                 renderMediaGrid(mediaItems);
 
+                document.getElementById('heroSection').classList.remove('hidden');
                 document.getElementById('mainContent').classList.remove('hidden');
 
             } catch (error) {
@@ -354,14 +434,38 @@
             }
         }
 
-        function renderClientInfo(meta) {
+        function renderClientInfo(meta, mediaItems) {
             document.title = `${meta.name} — Client Galeri`;
             document.getElementById('clientName').innerText = meta.name;
             document.getElementById('clientCategory').innerText = meta.category;
             document.getElementById('clientDate').innerHTML = `<i class="fa-regular fa-calendar me-1"></i> ${meta.date || '-'}`;
             document.getElementById('clientDesc').innerHTML = meta.desc;
 
-            // VENDOR NAME & FOOTER TITLE DYNAMIC LOGIC
+            let bannerSet = false;
+
+            for (const item of mediaItems) {
+                const videoId = getYoutubeId(item.url);
+                if (videoId) {
+                    initBgPlayer(videoId);
+                    bannerSet = true;
+                    break;
+                }
+            }
+
+            if (!bannerSet) {
+                for (const item of mediaItems) {
+                    const driveId = getDriveFileId(item.drive_id || item.url);
+                    if (driveId) {
+                        const bannerBg = document.getElementById('bannerBg');
+                        if (bannerBg) {
+                            bannerBg.style.backgroundImage = `url('https://lh3.googleusercontent.com/d/${driveId}=s1600')`;
+                        }
+                        bannerSet = true;
+                        break;
+                    }
+                }
+            }
+
             const vendorDisplayName = meta.vendor_name ? meta.vendor_name : 'Bagusinvisual';
             const footerTitleEl = document.getElementById('footerVendorTitle');
             if (footerTitleEl) {
@@ -386,11 +490,36 @@
                 driveBtn.href = meta.drive;
                 document.getElementById('driveContainer').classList.remove('hidden');
             }
+
+            if (meta.vendor_ig && meta.vendor_ig.trim() !== '') {
+                const footerIg = document.getElementById('footerVendorIg');
+                footerIg.href = meta.vendor_ig;
+                footerIg.classList.remove('hidden');
+            }
+
+            if (meta.vendor_nomor && meta.vendor_nomor.trim() !== '') {
+                const cleanHp = meta.vendor_nomor.replace(/[^0-9]/g, '');
+                const waNumber = cleanHp.startsWith('0') ? '62' + cleanHp.slice(1) : cleanHp;
+                const footerWa = document.getElementById('footerVendorWa');
+                footerWa.href = `https://wa.me/${waNumber}`;
+                footerWa.classList.remove('hidden');
+            }
+
+            if (meta.vendor_email && meta.vendor_email.trim() !== '') {
+                const footerEmail = document.getElementById('footerVendorEmail');
+                footerEmail.href = `mailto:${meta.vendor_email.trim()}`;
+                footerEmail.classList.remove('hidden');
+            }
         }
 
         function renderMediaGrid(items) {
             const container = document.getElementById('portoContainer');
+            const counterEl = document.getElementById('mediaCounter');
             container.innerHTML = '';
+
+            if (counterEl) {
+                counterEl.innerText = `${items.length} Media Item`;
+            }
 
             if (items.length === 0) {
                 container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500">Belum ada media yang diunggah di galeri ini.</div>`;
@@ -480,6 +609,10 @@
         }
 
         function openVideoModal(title, videoUrl) {
+            if (bgPlayer && typeof bgPlayer.pauseVideo === 'function') {
+                bgPlayer.pauseVideo();
+            }
+
             const modal = document.getElementById('mediaModal');
             const modalBody = document.getElementById('modalBody');
             const modalTitle = document.getElementById('modalTitle');
@@ -524,6 +657,10 @@
             modalBody.innerHTML = "";
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto';
+
+            if (bgPlayer && typeof bgPlayer.playVideo === 'function') {
+                bgPlayer.playVideo();
+            }
         }
 
         document.addEventListener('keydown', function(e) {
