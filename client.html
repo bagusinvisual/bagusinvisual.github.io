@@ -50,15 +50,14 @@
             background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
-        /* Trik khusus agar iframe YouTube bersikap seperti 'object-fit: cover' mentok 100vw */
         .video-background-wrapper {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100vw;
-            height: 56.25vw; /* 16:9 ratio dari 100vw */
+            height: 56.25vw;
             min-height: 100%;
-            min-width: 177.77vh; /* 16:9 ratio dari 100vh */
+            min-width: 177.77vh;
             transform: translate(-50%, -50%);
         }
 
@@ -102,18 +101,15 @@
     <div id="heroSection" class="relative w-screen left-1/2 right-1/2 -mx-[50vw] pt-20 hidden border-b border-brand-border/80 overflow-hidden">
         <div id="bannerCard" class="relative w-full min-h-[420px] sm:min-h-[480px] flex items-center justify-center overflow-hidden bg-brand-dark py-12">
             
-            <!-- FULL COVER BACKGROUND VIDEO (OPACITY 0.6) -->
             <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-60 z-0">
                 <div id="bannerVideoContainer" class="video-background-wrapper">
                     <div id="bannerBg" class="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700"></div>
                 </div>
             </div>
             
-            <!-- GRADIENT OVERLAY -->
             <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/30 to-brand-dark/50 z-0 pointer-events-none"></div>
             <div class="absolute inset-0 bg-black/20 z-0 pointer-events-none"></div>
 
-            <!-- CONTAINER CONTENT CENTERED -->
             <div class="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10">
                 <div class="bg-brand-card/85 backdrop-blur-xl border border-brand-border/80 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col md:flex-row md:items-center gap-6 sm:gap-8">
                     
@@ -619,11 +615,12 @@
 
             modalTitle.innerText = title;
             
-            const cleanEmbedUrl = `${videoUrl}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+            // cc_load_policy=0 untuk menonaktifkan subtitle/caption secara otomatis
+            const cleanEmbedUrl = `${videoUrl}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&cc_load_policy=0`;
 
+            // Layer penutup div h-16 dihapus total
             modalBody.innerHTML = `
                 <div class="relative aspect-video w-full overflow-hidden bg-black rounded-b-2xl">
-                    <div class="absolute top-0 left-0 right-0 h-16 z-20 pointer-events-auto bg-transparent"></div>
                     <iframe class="w-full h-full relative z-10" 
                             src="${cleanEmbedUrl}" 
                             title="${title}" 
