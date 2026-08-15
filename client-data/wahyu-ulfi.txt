@@ -1,0 +1,36 @@
+-----HEADLINE-----
+name: Ninit & Agus
+category: Wedding Video
+date: 4 Agustus 2026
+drive: https://drive.google.com/drive/folders/1oAr1giLKfIiDV_BikrcPOaPmUUrBIMTo
+vendor_name: AN Photography
+vendor_ig: https://www.instagram.com/an_photography_ae
+desc:
+///
+A Work for AN Photography
+///
+
+-----MEDIA ISI DISINI-----
+-   VIDEO DIBAWAH SINI   -
+--------------------------
+---
+title: Wedding Clip
+desc: 
+type: landscape
+url: https://www.youtube.com/watch?v=9INeV_H__JA
+---
+title: Wedding Teaser
+desc: 
+type: landscape
+url: https://www.youtube.com/watch?v=hhjKDbm1nJo
+---
+title: Wedding Reels / Story
+desc: 
+type: portrait
+url: https://www.youtube.com/watch?v=lZuXgKcQuA8
+---
+
+-----VENDOR CONTACT ISI DISINI-----
+vendor_ig: https://www.instagram.com/an_photography_ae
+vendor_nomor: 
+vendor_email: 
