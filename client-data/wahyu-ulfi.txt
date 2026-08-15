@@ -1,7 +1,7 @@
 -----HEADLINE-----
 name: Wahyu & Ulfi
 category: Wedding Video
-date: 4 Agustus 2026
+date: 5 Agustus 2026
 drive: https://drive.google.com/drive/folders/1oAr1giLKfIiDV_BikrcPOaPmUUrBIMTo
 vendor_name: AN Photography
 vendor_ig: https://www.instagram.com/an_photography_ae
