@@ -31,5 +31,5 @@ url: https://www.youtube.com/watch?v=mGKvqxxaPuI
 title: Foto Akad Nikah 01
 desc: Momen ijab kabul
 type: photo
-url: https://drive.google.com/file/d/1_VxmcbZi1jANwkn-XmRfk4VsqU-zCvcm/view?usp=sharing
+url: https://drive.google.com/file/d/1GlqrV8Gf3BQB9obz5nePFY9W43QjjunL/view?usp=sharing
 ---
