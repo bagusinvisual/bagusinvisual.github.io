@@ -528,7 +528,6 @@
                 const driveId = getDriveFileId(item.drive_id || rawUrl);
                 const isDriveLink = rawUrl.includes('drive.google.com') || (driveId && typeLower.includes('video'));
 
-                // 1. JIKA ITEM ADALAH VIDEO GOOGLE DRIVE
                 if (isDriveLink && (typeLower.includes('video') || typeLower === 'landscape' || typeLower === 'portrait' || typeLower === 'reels')) {
                     const embedDriveUrl = `https://drive.google.com/file/d/${driveId}/preview`;
                     const thumbUrl = `https://lh3.googleusercontent.com/d/${driveId}=s1600`;
@@ -566,7 +565,6 @@
                     `;
                     container.innerHTML += cardHtml;
 
-                // 2. JIKA ITEM ADALAH FOTO (GOOGLE DRIVE IMAGE)
                 } else if (typeLower === 'photo' || typeLower === 'foto' || item.drive_id) {
                     if (!driveId) return;
 
@@ -598,7 +596,6 @@
                     `;
                     container.innerHTML += cardHtml;
 
-                // 3. JIKA ITEM ADALAH VIDEO YOUTUBE
                 } else {
                     const videoId = getYoutubeId(item.url);
                     if (!videoId) return;
@@ -661,7 +658,6 @@
 
             modalBody.innerHTML = `
                 <div class="relative aspect-video w-full overflow-hidden bg-black rounded-b-2xl">
-                    <div class="absolute top-0 left-0 right-0 h-16 z-20 pointer-events-auto bg-transparent"></div>
                     <iframe class="w-full h-full relative z-10" 
                             src="${cleanEmbedUrl}" 
                             title="${title}" 
@@ -676,7 +672,7 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // FUNGSI MODAL DRIVE DIUBAH MENJADI HTML5 VIDEO STREAM NATIVE
+        // FUNGSI MODAL DRIVE DIPERBAIKI (MENGGUNAKAN IFRAME SECARA AMAN DI PC MAUPUN HP)
         function openDriveVideoModal(title, embedDriveUrl) {
             if (bgPlayer && typeof bgPlayer.pauseVideo === 'function') {
                 bgPlayer.pauseVideo();
@@ -688,20 +684,13 @@
 
             modalTitle.innerText = title;
 
-            const match = embedDriveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            const driveId = match ? match[1] : '';
-            const directVideoUrl = `https://drive.google.com/uc?export=download&id=${driveId}`;
-
             modalBody.innerHTML = `
-                <div class="relative w-full bg-black rounded-b-2xl overflow-hidden flex items-center justify-center min-h-[250px] max-h-[75vh]">
-                    <video class="w-full max-h-[75vh] object-contain" 
-                           controls 
-                           autoplay 
-                           playsinline 
-                           controlsList="nodownload">
-                        <source src="${directVideoUrl}" type="video/mp4">
-                        <iframe class="w-full aspect-video" src="${embedDriveUrl}" frameborder="0" allow="autoplay" allowfullscreen></iframe>
-                    </video>
+                <div class="relative aspect-video w-full overflow-hidden bg-black rounded-b-2xl flex items-center justify-center">
+                    <iframe class="w-full h-full border-0" 
+                            src="${embedDriveUrl}" 
+                            allow="autoplay" 
+                            allowfullscreen>
+                    </iframe>
                 </div>
             `;
             
