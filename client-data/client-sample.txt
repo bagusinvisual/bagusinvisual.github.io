@@ -16,7 +16,7 @@ isi disini textnya
 title: Wedding Teaser 1 Menit
 desc:isi deskripsi video
 type: landscape
-url: https://www.youtube.com/watch?v=Yn9y-KvIEvY
+url: https://drive.google.com/file/d/1GlqrV8Gf3BQB9obz5nePFY9W43QjjunL/view?usp=sharing
 ---
 title: Wedding Teaser 1 Menit
 desc: isi deskripsi video
